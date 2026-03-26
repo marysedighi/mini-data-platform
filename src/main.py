@@ -1,17 +1,13 @@
-import json
-from pathlib import Path
-
-def load_products():
-    file_path = Path(__file__).resolve().parent.parent / "data" / "products.json"
-
-    with open(file_path, "r", encoding="utf-8") as file:
-        products = json.load(file)
-
-    return products
+from etl import load_products, clean_products
 
 def main():
     products = load_products()
-    print("Loaded products:")
-    print(products)
+    cleaned_products = clean_products(products)
 
-if __name__ == "__main__":    main()
+    print("Original products:")
+    print(products)
+    print("Cleaned products:")
+    print(cleaned_products)
+
+if __name__ == "__main__":    
+    main()

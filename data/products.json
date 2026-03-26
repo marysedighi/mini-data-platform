@@ -7,21 +7,21 @@
   },
   {
     "product_id": 2,
-    "name": "Sneakers",
-    "category": "shoes",
+    "name": "Sneakers  ",
+    "category": "Shoes",
     "price": 69.99
   },
   {
     "product_id": 3,
     "name": "Blue T-Shirt",
-    "category": "clothing",
+    "category": "clothinG",
     "price": 19.99
   },
   {
     "product_id": 4,
     "name": "Black Jeans",
     "category": "clothing",
-    "price": 49.99
+    "price": 49
   },
   {
     "product_id": 5,
