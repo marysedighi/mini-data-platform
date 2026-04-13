@@ -34,3 +34,4 @@ def save_cleaned_products(products):
 
     with open(file_path, "w", encoding="utf-8") as file:
         json.dump(products, file, indent=2)
+        
