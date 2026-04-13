@@ -28,3 +28,9 @@ def clean_products(products):
         cleaned.append(cleaned_product)
 
     return cleaned
+
+def save_cleaned_products(products):
+    file_path = Path(__file__).resolve().parent.parent / "data" / "cleaned_products.json"
+
+    with open(file_path, "w", encoding="utf-8") as file:
+        json.dump(products, file, indent=2)
