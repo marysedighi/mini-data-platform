@@ -1,7 +1,7 @@
-from etl import load_products, clean_products, save_cleaned_products
+from etl import fetch_products_from_api, clean_products, save_cleaned_products
 
 def main():
-    products = load_products()
+    products = fetch_products_from_api()
     cleaned_products = clean_products(products)
     save_cleaned_products(cleaned_products)
 

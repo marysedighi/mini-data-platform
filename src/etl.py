@@ -1,4 +1,5 @@
 import json
+import requests
 from pathlib import Path
 
 
@@ -34,4 +35,14 @@ def save_cleaned_products(products):
 
     with open(file_path, "w", encoding="utf-8") as file:
         json.dump(products, file, indent=2)
+
+        def fetch_products_from_api():
+            url = "https://fakestoreapi.com/products"
+            response = requests.get(url)
+
+            if response.status_code == 200:
+                return response.json()
+            else:
+                print(f"Failed to fetch products: {response.status_code}")
+                return []
         
