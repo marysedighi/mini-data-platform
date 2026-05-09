@@ -20,8 +20,8 @@ def clean_products(products):
             continue
 
         cleaned_product = {
-            "product_id": p["product_id"],
-            "name": p["name"].strip(),
+            "product_id": p["id"],
+            "name": p["title"].strip(),
             "category": p["category"].lower(),
             "price": float(p["price"]),
         }
