@@ -1,31 +1,31 @@
 [
   {
-    "product_id": 1,
-    "name": "Running Shoes",
+    "id": 1,
+    "title": "Running Shoes",
     "category": "shoes",
     "price": 79.99
   },
   {
-    "product_id": 2,
-    "name": "Sneakers  ",
+    "id": 2,
+    "title": "Sneakers  ",
     "category": "Shoes",
     "price": 69.99
   },
   {
-    "product_id": 3,
-    "name": "Blue T-Shirt",
+    "id": 3,
+    "title": "Blue T-Shirt",
     "category": "clothinG",
     "price": 19.99
   },
   {
-    "product_id": 4,
-    "name": "Black Jeans",
+    "id": 4,
+    "title": "Black Jeans",
     "category": "clothing",
     "price": 49
   },
   {
-    "product_id": 5,
-    "name": "Baseball Cap",
+    "id": 5,
+    "title": "Baseball Cap",
     "category": "accessories",
     "price": 14.99
   }
