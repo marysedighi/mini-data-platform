@@ -1,7 +1,11 @@
 import json
+from urllib import response
 import requests
 from pathlib import Path
+import logging
 
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
 
 def load_products():
     file_path = Path(__file__).resolve().parent.parent / "data" / "products.json"
@@ -38,11 +42,19 @@ def save_cleaned_products(products):
 
 def fetch_products_from_api():
     url = "https://fakestoreapi.com/products"
-    response = requests.get(url)
 
-    if response.status_code == 200:
+    try:
+        logger.info(f"Fetching products from API: {url}")
+
+        response = requests.get(url, timeout=10)
+        response.raise_for_status()
+        
+        logger.info("Products fetched successfully from API.")
+
         return response.json()
-    else:
-        print(f"Failed to fetch products: {response.status_code}")
+    
+    except requests.RequestException as e:
+        logger.error(f"Error fetching products from API: {e}")
+
         return []
         
