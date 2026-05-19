@@ -56,6 +56,7 @@ def fetch_products_from_api():
     except requests.RequestException as e:
         logger.error(f"Error fetching products from API: {e}")
         logger.info("Falling back to local products.json file.")
-
+        
+        # Fallback to local file if API is unavailable
         return load_products()
         
