@@ -21,3 +21,39 @@ def get_average_price():
     connection.close()
 
     return round(result, 2) if result else 0.0
+
+def get_products_per_category():
+    connection = get_connection()
+    cursor = connection.cursor()
+
+    cursor.execute(
+        """
+        SELECT category, COUNT(*) as count
+        FROM products
+        GROUP BY category
+        ORDER BY count(*) DESC
+    """)
+
+    result = cursor.fetchall() # retrieves all rows of the result set
+
+    connection.close()
+
+    return result if result else []
+
+def get_top_expensive_products():
+    connection = get_connection()
+    cursor = connection.cursor()
+
+    cursor.execute(
+        """
+        Select product_id, name, price
+        From products
+        Order By price DESC
+        limit 5
+    """)
+
+    result = cursor.fetchall()
+
+    connection.close()
+
+    return result if result else []
