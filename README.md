@@ -12,12 +12,12 @@ This project demonstrates:
 - Python testing
 - Docker containerization
 - GitHub Actions CI
-- integration with:
-  - Kafka
-  - Apache Beam / Dataflow
-  - Spark
-  - BigQuery / Data Warehouse
+- integration with:(Will be added)
   - Redis caching
+  - Kafka
+  - Spark
+  - Apache Beam / Dataflow
+  - BigQuery / Data Warehouse
   - Terraform
 
 ---
@@ -28,7 +28,9 @@ This project demonstrates:
 mini-data-platform/
 ├── src/
 │   ├── main.py
-│   └── etl.py
+│   ├── etl.py
+│   ├── database.py
+│   └── analytics.py
 ├── tests/
 │   └── test_etl.py
 ├── data/
@@ -48,13 +50,31 @@ mini-data-platform/
 
 ## ✅ ETL Pipeline
 
-Current ETL flow:
-
 1. Extract product data from external API
 2. Transform and clean product data
-3. Load cleaned data into JSON storage
+3. Load cleaned data into JSON storage or local SQLite DB
 
 ---
+
+## ✅ Database Storage
+
+Uses SQLite for persistent storage.
+
+Features:
+- Create products table
+- Insert cleaned products
+- Store transformed data locally
+
+## ✅ SQL Analytics
+
+Implemented analytics queries:
+
+- Product count
+- Average price
+- Products per category
+- Top expensive products
+- Products above a price threshold
+- Price segmentation using CASE WHEN
 
 ## ✅ API Ingestion
 
@@ -126,6 +146,8 @@ CI pipeline automatically:
 # 🛠️ Tech Stack
 
 - Python
+- SQLite
+- SQL
 - Pytest
 - Docker
 - GitHub Actions
@@ -182,3 +204,7 @@ This repository is focused on learning:
 - Containerization
 - Data processing
 - SQL and analytics concepts
+- GCP services used for DE like Bigquery
+- SQL aggregations, GROUP BY, CASE WHEN, Filtering with WHERE
+- Database integration
+- Data modeling fundamentals
