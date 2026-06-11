@@ -1,4 +1,4 @@
-from database import get_connection
+from src.database import get_connection
 
 def get_product_count():
     connection = get_connection()
