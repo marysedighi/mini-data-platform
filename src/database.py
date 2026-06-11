@@ -20,7 +20,9 @@ def create_products_table():
             product_id INTEGER PRIMARY KEY,
             name TEXT NOT NULL,
             category TEXT NOT NULL,
-            price REAL NOT NULL
+            price REAL NOT NULL,
+            rating_score REAL,
+            rating_count INTEGER
         )
     """)
 
@@ -35,14 +37,16 @@ def insert_products(products):
 
     # insert multiple rows 
     cursor.executemany("""
-        INSERT OR REPLACE INTO products (product_id, name, category, price)
-        VALUES (?, ?, ?, ?)
+        INSERT OR REPLACE INTO products (product_id, name, category, price, rating_score, rating_count)
+        VALUES (?, ?, ?, ?, ?, ?)
     """, [
         (
             p["product_id"],
             p["name"],
             p["category"],
-            p["price"]
+            p["price"],
+            p["rating_score"],
+            p["rating_count"]
         )
         for p in products
     ])

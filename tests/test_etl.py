@@ -3,8 +3,8 @@ from src.etl import clean_products
 
 def test_clean_products_removes_none_price():
     products = [
-        {"id": 1, "title": "Shoes", "category": "Shoes", "price": 79.99},
-        {"id": 2, "title": "Hat", "category": "Accessories", "price": None},
+        {"id": 1, "title": "Shoes", "category": "Shoes", "price": 79.99, "rating": {"rate": 4.5, "count": 100}},
+        {"id": 2, "title": "Hat", "category": "Accessories", "price": None, "rating": {"rate": 4.0, "count": 50}},
     ]
 
     result = clean_products(products)
@@ -15,7 +15,7 @@ def test_clean_products_removes_none_price():
 
 def test_clean_products_strips_name():
     products = [
-        {"id": 1, "title": "  Running Shoes  ", "category": "Shoes", "price": 79.99},
+        {"id": 1, "title": "  Running Shoes  ", "category": "Shoes", "price": 79.99, "rating": {"rate": 4.5, "count": 100}},
     ]
 
     result = clean_products(products)
@@ -25,7 +25,7 @@ def test_clean_products_strips_name():
 
 def test_clean_products_lowercases_category():
     products = [
-        {"id": 1, "title": "Shoes", "category": "SHOES", "price": 79.99},
+        {"id": 1, "title": "Shoes", "category": "SHOES", "price": 79.99, "rating": {"rate": 4.5, "count": 100}},
     ]
 
     result = clean_products(products)
@@ -35,7 +35,7 @@ def test_clean_products_lowercases_category():
 
 def test_clean_products_converts_price_to_float():
     products = [
-        {"id": 1, "title": "Shoes", "category": "Shoes", "price": "79.99"},
+        {"id": 1, "title": "Shoes", "category": "Shoes", "price": "79.99", "rating": {"rate": 4.5, "count": 100}},
     ]
 
     result = clean_products(products)

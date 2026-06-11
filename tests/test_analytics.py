@@ -2,8 +2,9 @@ from src.analytics import (get_product_count,
                             get_average_price,
                             get_products_per_category,
                             get_price_segmentation,
-                            get_category_price_summary,
-                            get_ranked_products_by_price)
+                            get_category_price_summary, get_products_with_high_rating,
+                            get_ranked_products_by_price,
+                            get_top_rated_products)
 
 def test_get_product_count():
     count = get_product_count()
@@ -52,3 +53,26 @@ def test_get_ranked_products_by_price():
         assert isinstance(price, (int, float))
         assert isinstance(price_rank, int)
         assert price >= 0
+
+def test_get_products_with_high_rating():
+    min_rating = 4.0
+    products_with_high_rating = get_products_with_high_rating(min_rating)
+    assert isinstance(products_with_high_rating, list)
+    for product_id, name, price, rating_score in products_with_high_rating:
+        assert isinstance(product_id, int)
+        assert isinstance(name, str)
+        assert isinstance(price, (int, float))
+        assert isinstance(rating_score, (int, float))
+        assert rating_score >= min_rating
+
+def test_get_top_rated_products():
+    limit = 5
+    top_rated_products = get_top_rated_products(limit)
+    assert isinstance(top_rated_products, list)
+    assert len(top_rated_products) <= limit
+    for product_id, name, price, rating_score in top_rated_products:
+        assert isinstance(product_id, int)
+        assert isinstance(name, str)
+        assert isinstance(price, (int, float))
+        assert isinstance(rating_score, (int, float))
+        assert rating_score >= 0

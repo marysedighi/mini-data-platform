@@ -140,3 +140,41 @@ def get_ranked_products_by_price():
     connection.close()
 
     return result if result else []
+
+def get_products_with_high_rating(min_rating):
+    connection = get_connection()
+    cursor = connection.cursor()
+
+    cursor.execute(
+        """
+        SELECT product_id, name, price, rating_score
+        FROM products
+        WHERE rating_score >= ?
+        ORDER BY rating_score DESC
+    """, (min_rating,)
+    )
+
+    result = cursor.fetchall()
+
+    connection.close()
+
+    return result if result else []
+
+def get_top_rated_products(limit=5):
+    connection = get_connection()
+    cursor = connection.cursor()
+
+    cursor.execute(
+        """
+        SELECT product_id, name, price, rating_score
+        FROM products
+        ORDER BY rating_score DESC
+        LIMIT ?
+    """, (limit,)
+    )
+
+    result = cursor.fetchall()
+
+    connection.close()
+
+    return result if result else []

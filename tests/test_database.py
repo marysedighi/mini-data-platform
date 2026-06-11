@@ -18,8 +18,8 @@ def test_insert_products():
     create_products_table()
 
     products = [
-        {"product_id": 1, "name": "Shoes", "category": "Shoes", "price": 79.99},
-        {"product_id": 2, "name": "Hat", "category": "Accessories", "price": 19.99},
+        {"product_id": 1, "name": "Shoes", "category": "Shoes", "price": 79.99, "rating_score": 4.5, "rating_count": 100},
+        {"product_id": 2, "name": "Hat", "category": "Accessories", "price": 19.99, "rating_score": 4.0, "rating_count": 50},
     ]
 
     insert_products(products)
@@ -27,11 +27,11 @@ def test_insert_products():
     connection = get_connection()
     cursor = connection.cursor()
 
-    cursor.execute("SELECT product_id, name, category, price FROM products where product_id in (1, 2)")
+    cursor.execute("SELECT product_id, name, category, price, rating_score, rating_count FROM products where product_id in (1, 2)")
     result = cursor.fetchall()
 
     connection.close()
 
     assert len(result) == 2
-    assert result[0] == (1, "Shoes", "Shoes", 79.99)
-    assert result[1] == (2, "Hat", "Accessories", 19.99)
+    assert result[0] == (1, "Shoes", "Shoes", 79.99, 4.5, 100)
+    assert result[1] == (2, "Hat", "Accessories", 19.99, 4.0, 50)
