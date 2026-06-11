@@ -1,0 +1,92 @@
+[
+  {
+    "user_id": 1,
+    "name": "john doe",
+    "email": "john@gmail.com",
+    "city": "kilcoole",
+    "street": "new road",
+    "zipcode": "12926-3874",
+    "phone": "1-570-236-7033"
+  },
+  {
+    "user_id": 2,
+    "name": "david morrison",
+    "email": "morrison@gmail.com",
+    "city": "kilcoole",
+    "street": "lovers ln",
+    "zipcode": "12926-3874",
+    "phone": "1-570-236-7033"
+  },
+  {
+    "user_id": 3,
+    "name": "kevin ryan",
+    "email": "kevin@gmail.com",
+    "city": "cullman",
+    "street": "frances ct",
+    "zipcode": "29567-1452",
+    "phone": "1-567-094-1345"
+  },
+  {
+    "user_id": 4,
+    "name": "don romer",
+    "email": "don@gmail.com",
+    "city": "san antonio",
+    "street": "hunters creek dr",
+    "zipcode": "98234-1734",
+    "phone": "1-765-789-6734"
+  },
+  {
+    "user_id": 5,
+    "name": "derek powell",
+    "email": "derek@gmail.com",
+    "city": "san antonio",
+    "street": "adams st",
+    "zipcode": "80796-1234",
+    "phone": "1-956-001-1945"
+  },
+  {
+    "user_id": 6,
+    "name": "david russell",
+    "email": "david_r@gmail.com",
+    "city": "el paso",
+    "street": "prospect st",
+    "zipcode": "12346-0456",
+    "phone": "1-678-345-9856"
+  },
+  {
+    "user_id": 7,
+    "name": "miriam snyder",
+    "email": "miriam@gmail.com",
+    "city": "fresno",
+    "street": "saddle st",
+    "zipcode": "96378-0245",
+    "phone": "1-123-943-0563"
+  },
+  {
+    "user_id": 8,
+    "name": "william hopkins",
+    "email": "william@gmail.com",
+    "city": "mesa",
+    "street": "vally view ln",
+    "zipcode": "96378-0245",
+    "phone": "1-478-001-0890"
+  },
+  {
+    "user_id": 9,
+    "name": "kate hale",
+    "email": "kate@gmail.com",
+    "city": "miami",
+    "street": "avondale ave",
+    "zipcode": "96378-0245",
+    "phone": "1-678-456-1934"
+  },
+  {
+    "user_id": 10,
+    "name": "jimmie klein",
+    "email": "jimmie@gmail.com",
+    "city": "fort wayne",
+    "street": "oak lawn ave",
+    "zipcode": "10256-4532",
+    "phone": "1-104-001-4567"
+  }
+]

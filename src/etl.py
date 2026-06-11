@@ -64,7 +64,7 @@ def save_cleaned_products(products):
     with open(file_path, "w", encoding="utf-8") as file:
         json.dump(products, file, indent=2)
 
-        
+
 def fetch_users_from_api():
     url = "https://fakestoreapi.com/users"
 
@@ -99,6 +99,12 @@ def clean_users(users):
         cleaned.append(cleaned_user)
 
     return cleaned
+
+def save_cleaned_users(users):
+    file_path = Path(__file__).resolve().parent.parent / "data" / "cleaned_users.json"
+
+    with open(file_path, "w", encoding="utf-8") as file:
+        json.dump(users, file, indent=2)
     
 def fetch_orders_from_api():
     url = "https://fakestoreapi.com/carts"
@@ -121,14 +127,21 @@ def clean_orders(orders):
     cleaned = []
 
     for o in orders:
-        cleaned_order = {
-            "order_id": o["id"],
-            "user_id": o["userId"],
-            "order_date": o["date"],
-            "product_id": o["products"],
-            "quantity": o["products"]
-        }
+        for p in o["products"]:
+            cleaned_order_item = {
+                "order_id": o["id"],
+                "user_id": o["userId"],
+                "order_date": o["date"],
+                "product_id": p["productId"],
+                "quantity": p["quantity"]
+            }
 
-        cleaned.append(cleaned_order)
+        cleaned.append(cleaned_order_item)
 
     return cleaned
+
+def save_cleaned_orders(orders):
+    file_path = Path(__file__).resolve().parent.parent / "data" / "cleaned_orders.json"
+
+    with open(file_path, "w", encoding="utf-8") as file:
+        json.dump(orders, file, indent=2)
