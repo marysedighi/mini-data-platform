@@ -102,11 +102,12 @@ def create_orders_table():
 
     cursor.execute("""
         CREATE TABLE IF NOT EXISTS orders (
-            order_id INTEGER PRIMARY KEY,
+            order_id INTEGER,
             user_id INTEGER,
             product_id INTEGER,
             quantity INTEGER,
             order_date TEXT,
+            PRIMARY KEY (oreder_id, product_id)
             FOREIGN KEY (user_id) REFERENCES users(user_id),
             FOREIGN KEY (product_id) REFERENCES products(product_id)
         )

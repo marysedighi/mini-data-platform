@@ -1,5 +1,4 @@
 import json
-from urllib import response
 import requests
 from pathlib import Path
 import logging
@@ -64,7 +63,7 @@ def save_cleaned_products(products):
     with open(file_path, "w", encoding="utf-8") as file:
         json.dump(products, file, indent=2)
 
-
+# Fetch users from API
 def fetch_users_from_api():
     url = "https://fakestoreapi.com/users"
 
@@ -105,7 +104,8 @@ def save_cleaned_users(users):
 
     with open(file_path, "w", encoding="utf-8") as file:
         json.dump(users, file, indent=2)
-    
+
+# Fetch orders from API   
 def fetch_orders_from_api():
     url = "https://fakestoreapi.com/carts"
 
@@ -127,7 +127,11 @@ def clean_orders(orders):
     cleaned = []
 
     for o in orders:
-        for p in o["products"]:
+        for p in o.get("products", []):
+
+            if not all([o.get("id"), o.get("userId"), o.get("date"), p.get("productId"), p.get("quantity")]):
+                continue
+
             cleaned_order_item = {
                 "order_id": o["id"],
                 "user_id": o["userId"],
@@ -136,7 +140,7 @@ def clean_orders(orders):
                 "quantity": p["quantity"]
             }
 
-        cleaned.append(cleaned_order_item)
+            cleaned.append(cleaned_order_item)
 
     return cleaned
 
