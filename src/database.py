@@ -107,7 +107,7 @@ def create_orders_table():
             product_id INTEGER,
             quantity INTEGER,
             order_date TEXT,
-            PRIMARY KEY (order_id, product_id)
+            PRIMARY KEY (order_id, product_id),
             FOREIGN KEY (user_id) REFERENCES users(user_id),
             FOREIGN KEY (product_id) REFERENCES products(product_id)
         )
