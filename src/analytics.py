@@ -100,3 +100,43 @@ def get_price_segmentation():
     connection.close()
 
     return result if result else []
+
+def get_category_price_summary():
+    connection = get_connection()
+    cursor = connection.cursor()
+
+    cursor.execute(
+        """
+        with category_summary as (
+        SELECT category, COUNT(*) as product_count, AVG(price) as avg_price, MIN(price) as min_price, MAX(price) as max_price
+        FROM products
+        GROUP BY category
+        )
+        SELECT category, product_count, ROUND(avg_price, 2) as avg_price, min_price, max_price
+        FROM category_summary
+        ORDER BY avg_price DESC
+    """)
+
+    result = cursor.fetchall()
+
+    connection.close()
+
+    return result if result else []
+
+def get_ranked_products_by_price():
+    connection = get_connection()
+    cursor = connection.cursor()
+
+    cursor.execute(
+        """
+        SELECT product_id, name, price, category,
+        RANK() OVER (Partition by category ORDER BY price DESC) as price_rank
+        FROM products
+        ORDER by category, price_rank
+    """)
+
+    result = cursor.fetchall()
+
+    connection.close()
+
+    return result if result else []
