@@ -1,5 +1,3 @@
-from multiprocessing.dummy import connection
-from unittest import result
 from src.database import create_orders_table, create_products_table, create_users_table, insert_orders, insert_products, get_connection, insert_users
 
 def test_create_products_table():
@@ -92,22 +90,27 @@ def test_create_orders_table():
 def test_insert_orders():
     create_orders_table()
 
-    oreders = [
+    orders = [
         {"order_id": 1, "user_id": 1, "product_id": 1, "quantity": 2, "order_date": "2024-01-01"},
-        {"order_id": 2, "user_id": 2, "product_id": 2, "quantity": 1, "order_date": "2024-01-02"}
+        {"order_id": 1, "user_id": 1, "product_id": 2, "quantity": 1, "order_date": "2024-01-01"}
     ]
 
-    insert_orders(oreders)
+    insert_orders(orders)
 
     connection = get_connection()
     cursor = connection.cursor()
 
-    cursor.execute("SELECT order_id, user_id, product_id, quantity, order_date FROM orders where order_id in (1, 2)")
+    cursor.execute("""
+        SELECT order_id, user_id, product_id, quantity, order_date
+        FROM orders
+        WHERE order_id = 1
+        ORDER BY product_id
+    """)
+    
     result = cursor.fetchall()
 
     connection.close()
 
     assert len(result) == 2
     assert result[0] == (1, 1, 1, 2, "2024-01-01")
-    assert result[1] == (2, 2, 2, 1, "2024-01-02")
-    
+    assert result[1] == (1, 1, 2, 1, "2024-01-01")    
