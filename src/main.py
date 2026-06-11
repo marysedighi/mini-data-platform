@@ -1,6 +1,6 @@
-from etl import fetch_products_from_api, clean_products, save_cleaned_products
-from database import create_products_table, insert_products
-from analytics import(get_product_count, 
+from src.etl import fetch_products_from_api, clean_products, save_cleaned_products
+from src.database import create_products_table, insert_products
+from src.analytics import(get_product_count, 
                 get_average_price, 
                 get_products_per_category, 
                 get_top_expensive_products, 
