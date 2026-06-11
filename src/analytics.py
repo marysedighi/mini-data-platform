@@ -57,3 +57,46 @@ def get_top_expensive_products():
     connection.close()
 
     return result if result else []
+
+def get_products_above_price(min_price):
+    connection = get_connection()
+    cursor = connection.cursor()
+
+    cursor.execute(
+        """
+        Select product_id, name, price
+        From products
+        Where price > ?
+        Order By price DESC
+    """, (min_price,)
+    )
+
+    result = cursor.fetchall()
+
+    connection.close()
+    
+    return result if result else []
+
+def get_price_segmentation():
+    connection = get_connection()
+    cursor = connection.cursor()
+
+    cursor.execute(
+        """
+        SELECT 
+            CASE 
+                WHEN price < 50 THEN 'Low'
+                WHEN price BETWEEN 50 AND 200 THEN 'Medium'
+                ELSE 'High'
+            END AS price_segment,
+            COUNT(*) as product_count
+        FROM products
+        GROUP BY price_segment
+        order by product_count DESC
+    """)
+
+    result = cursor.fetchall()
+
+    connection.close()
+
+    return result if result else []

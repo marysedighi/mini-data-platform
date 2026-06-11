@@ -1,6 +1,11 @@
 from etl import fetch_products_from_api, clean_products, save_cleaned_products
 from database import create_products_table, insert_products
-from analytics import get_product_count, get_average_price, get_products_per_category, get_top_expensive_products
+from analytics import(get_product_count, 
+                get_average_price, 
+                get_products_per_category, 
+                get_top_expensive_products, 
+                get_products_above_price, 
+                get_price_segmentation)
 
 def main():
 
@@ -29,6 +34,11 @@ def main():
     print("Top expensive products:")
     print(get_top_expensive_products())
 
+    print("Products above $100:")
+    print(get_products_above_price(100))
+
+    print("Price segmentation:")
+    print(get_price_segmentation())
 
 if __name__ == "__main__":    
     main()
