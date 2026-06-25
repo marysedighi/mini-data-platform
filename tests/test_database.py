@@ -1,7 +1,32 @@
-from src.database import create_orders_table, create_products_table, create_users_table, insert_orders, insert_products, get_connection, insert_users
+import pytest
+
+from src.database import (
+    create_orders_table, 
+    create_products_table, 
+    create_users_table, 
+    insert_orders, 
+    insert_products, 
+    get_connection, 
+    insert_users
+)
+
+@pytest.fixture(autouse=True)
+def cleanup_database():
+    create_products_table()
+    create_users_table()
+    create_orders_table()
+
+    connection = get_connection()
+    cursor = connection.cursor()
+
+    cursor.execute("DELETE FROM orders")
+    cursor.execute("DELETE FROM products")
+    cursor.execute("DELETE FROM users")
+
+    connection.commit()
+    connection.close()
 
 def test_create_products_table():
-    create_products_table()
 
     connection = get_connection()
     cursor = connection.cursor()
@@ -15,7 +40,6 @@ def test_create_products_table():
     assert result[0] == "products"  
 
 def test_insert_products():
-    create_products_table()
 
     products = [
         {"product_id": 1, "name": "Shoes", "category": "Shoes", "price": 79.99, "rating_score": 4.5, "rating_count": 100},
@@ -27,7 +51,7 @@ def test_insert_products():
     connection = get_connection()
     cursor = connection.cursor()
 
-    cursor.execute("SELECT product_id, name, category, price, rating_score, rating_count FROM products where product_id in (1, 2)")
+    cursor.execute("SELECT product_id, name, category, price, rating_score, rating_count FROM products where product_id in (1, 2) order by product_id")
     result = cursor.fetchall()
 
     connection.close()
@@ -37,7 +61,6 @@ def test_insert_products():
     assert result[1] == (2, "Hat", "Accessories", 19.99, 4.0, 50)
 
 def test_create_users_table():
-    create_users_table()
 
     connection = get_connection()
     cursor = connection.cursor()
@@ -51,7 +74,6 @@ def test_create_users_table():
     assert result[0] == "users"
 
 def test_insert_users():
-    create_users_table()
 
     users = [
         {"user_id": 1, "name": "Alice", "email": "alice@example.com", "city": "New York", "street": "123 Main St", "zipcode": "10001", "phone": "555-1234"},
@@ -63,7 +85,7 @@ def test_insert_users():
     connection = get_connection()
     cursor = connection.cursor()        
     
-    cursor.execute("SELECT user_id, name, email, city, street, zipcode, phone FROM users where user_id in (1, 2)")
+    cursor.execute("SELECT user_id, name, email, city, street, zipcode, phone FROM users where user_id in (1, 2) order by user_id")
    
     result = cursor.fetchall()
     
@@ -73,7 +95,6 @@ def test_insert_users():
     assert result[0] == (1, "Alice", "alice@example.com", "New York", "123 Main St", "10001", "555-1234")
 
 def test_create_orders_table():
-    create_orders_table()
 
     connection = get_connection()
     cursor = connection.cursor()
@@ -88,7 +109,6 @@ def test_create_orders_table():
     assert result[0] == "orders"
 
 def test_insert_orders():
-    create_orders_table()
 
     orders = [
         {"order_id": 1, "user_id": 1, "product_id": 1, "quantity": 2, "order_date": "2024-01-01"},

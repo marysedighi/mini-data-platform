@@ -178,3 +178,104 @@ def get_top_rated_products(limit=5):
     connection.close()
 
     return result if result else []
+
+def get_orders_with_user_and_product_details():
+    connection = get_connection()
+    cursor = connection.cursor()
+
+    cursor.execute(
+        """
+        SELECT o.order_id, o.user_id, u.name as user_name, o.product_id, p.name as product_name,p.price as product_price, o.quantity, o.order_date
+        FROM orders o
+        JOIN users u ON o.user_id = u.user_id
+        JOIN products p ON o.product_id = p.product_id
+        ORDER BY o.order_date DESC
+    """)
+
+    result = cursor.fetchall()
+
+    connection.close()
+
+    return result if result else []
+
+def get_revenue_per_category():
+    connection = get_connection()
+    cursor = connection.cursor()
+
+    cursor.execute(
+        """
+        SELECT p.category, ROUND(SUM(o.quantity * p.price), 2) as total_revenue
+        FROM orders o
+        JOIN products p ON o.product_id = p.product_id
+        GROUP BY p.category
+        ORDER BY total_revenue DESC
+    """)
+
+    result = cursor.fetchall()
+
+    connection.close()
+
+    return result if result else []
+
+def get_top_users_by_order_count(limit):
+    connection = get_connection()
+    cursor = connection.cursor()
+
+    cursor.execute(
+        """
+        SELECT u.user_id, u.name, COUNT(DISTINCT o.order_id) as order_count
+        FROM users u
+        JOIN orders o ON u.user_id = o.user_id
+        GROUP BY u.user_id, u.name
+        ORDER BY order_count DESC
+        LIMIT ?
+    """, (limit,)
+    )
+
+    result = cursor.fetchall()
+
+    connection.close()
+
+    return result if result else []
+
+def get_top_products_by_quantity_purchased(limit=5):
+    connection = get_connection()
+    cursor = connection.cursor()
+
+    cursor.execute(
+        """
+        SELECT p.product_id, p.name, SUM(o.quantity) as total_quantity
+        FROM orders o
+        JOIN products p ON o.product_id = p.product_id
+        GROUP BY p.product_id, p.name
+        ORDER BY total_quantity DESC
+        LIMIT ?
+    """, (limit,))
+
+    result = cursor.fetchall()
+
+    connection.close()
+
+    return result if result else []
+
+def get_highest_rated_products_per_category():
+    connection = get_connection()
+    cursor = connection.cursor()
+
+    cursor.execute(
+        """
+        SELECT category, product_id, name, rating_score
+        FROM (
+            SELECT category, product_id, name, rating_score,
+            RANK() OVER (PARTITION BY category ORDER BY rating_score DESC) as rank
+            FROM products
+        )
+        WHERE rank = 1
+        ORDER BY category
+    """)        
+
+    result = cursor.fetchall()
+    
+    connection.close()
+
+    return result if result else []

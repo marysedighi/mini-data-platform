@@ -1,10 +1,10 @@
-from src.analytics import (get_product_count, 
+from src.analytics import (get_orders_with_user_and_product_details, get_product_count, 
                             get_average_price,
                             get_products_per_category,
                             get_price_segmentation,
                             get_category_price_summary, get_products_with_high_rating,
-                            get_ranked_products_by_price,
-                            get_top_rated_products)
+                            get_ranked_products_by_price, get_revenue_per_category, get_top_products_by_quantity_purchased,
+                            get_top_rated_products, get_top_users_by_order_count)
 
 def test_get_product_count():
     count = get_product_count()
@@ -76,3 +76,47 @@ def test_get_top_rated_products():
         assert isinstance(price, (int, float))
         assert isinstance(rating_score, (int, float))
         assert rating_score >= 0
+
+def test_get_revenue_per_category():
+    revenue_per_category = get_revenue_per_category()
+    assert isinstance(revenue_per_category, list)
+    for category, total_revenue in revenue_per_category:
+        assert isinstance(category, str)
+        assert isinstance(total_revenue, (int, float))
+        assert total_revenue >= 0
+
+
+def test_get_top_users_by_order_count():
+    limit = 5
+    top_users = get_top_users_by_order_count(limit)
+    assert isinstance(top_users, list)
+    assert len(top_users) <= limit
+    for user_id, name, order_count in top_users:
+        assert isinstance(user_id, int)
+        assert isinstance(name, str)
+        assert isinstance(order_count, int)
+        assert order_count >= 0
+
+def test_get_orders_with_user_and_product_details():
+    orders_with_details = get_orders_with_user_and_product_details()
+    assert isinstance(orders_with_details, list)
+    for order_id, user_id, user_name, product_id, product_name, product_price, quantity, order_date in orders_with_details:
+        assert isinstance(order_id, int)
+        assert isinstance(user_id, int)
+        assert isinstance(user_name, str)
+        assert isinstance(product_id, int)
+        assert isinstance(product_name, str)
+        assert isinstance(product_price, (int, float))
+        assert isinstance(quantity, int)
+        assert isinstance(order_date, str)  # Assuming order_date is stored as a string in the database
+
+def test_get_top_products_by_quantity_purchased():
+    limit = 5
+    top_products = get_top_products_by_quantity_purchased(limit)
+    assert isinstance(top_products, list)
+    assert len(top_products) <= limit
+    for product_id, name, total_quantity in top_products:
+        assert isinstance(product_id, int)
+        assert isinstance(name, str)
+        assert isinstance(total_quantity, int)
+        assert total_quantity >= 0
