@@ -6,19 +6,29 @@ A simple Data Engineering project inspired by real-world recommendation and ETL 
 
 This project demonstrates:
 
-- ETL/ELT concepts
-- API data ingestion
-- Data cleaning and transformation
-- Python testing
-- Docker containerization
+
+- Batch ETL pipelines
+- API data ingestion (Products, Users, Orders)
+- Data cleaning, normalization, and validation
+- SQLite database design
+- SQL analytics (SELECT, GROUP BY, JOINs, CTEs, Window Functions)
+- Data quality checks
+- Python unit testing with pytest
+- Logging and error handling
 - GitHub Actions CI
-- integration with:(Will be added)
-  - Redis caching
-  - Kafka
-  - Spark
-  - Apache Beam / Dataflow
-  - BigQuery / Data Warehouse
-  - Terraform
+- Docker containerization
+
+### 🔜 Planned Enhancements
+
+- FastAPI REST API
+- Redis caching
+- Apache Airflow orchestration
+- dbt analytics engineering
+- Apache Kafka streaming
+- Apache Spark (Batch & Streaming)
+- Google BigQuery
+- Apache Beam / Google Dataflow
+- Terraform Infrastructure as Code
 
 ---
 
@@ -27,20 +37,35 @@ This project demonstrates:
 ```text
 mini-data-platform/
 ├── src/
-│   ├── main.py
-│   ├── etl.py
-│   ├── database.py
-│   └── analytics.py
+│   ├── __init__.py
+│   ├── main.py                # Runs ETL pipelines and analytics
+│   ├── etl.py                 # Extract, clean and validate data
+│   ├── database.py            # SQLite tables and insert operations
+│   └── analytics.py           # SQL analytics queries
+│
 ├── tests/
-│   └── test_etl.py
+│   ├── test_etl.py
+│   ├── test_database.py
+│   └── test_analytics.py
+│
 ├── data/
 │   ├── products.json
-│   └── cleaned_products.json
-├── .github/workflows/
-│   └── python-ci.yml
+│   ├── users.json
+│   ├── orders.json
+│   ├── cleaned_products.json
+│   ├── cleaned_users.json
+│   ├── cleaned_orders.json
+│   └── mini_data_platform.db
+│
+├── .github/
+│   └── workflows/
+│       └── python-ci.yml
+│
 ├── Dockerfile
 ├── .dockerignore
 ├── requirements.txt
+├── .env.example
+├── .gitignore
 └── README.md
 ```
 
@@ -48,66 +73,121 @@ mini-data-platform/
 
 # ⚙️ Features Implemented
 
-## ✅ ETL Pipeline
+## ✅ Batch ETL Pipeline
 
-1. Extract product data from external API
-2. Transform and clean product data
-3. Load cleaned data into JSON storage or local SQLite DB
+* Extract products, users, and orders from Fake Store APIs
+* Fallback to local JSON files
+* Clean, normalize, and validate data
+* Save cleaned data to JSON
+* Load cleaned data into SQLite
+* ETL pipeline orchestration
+* Error handling and retry logic
+* Logging
 
 ---
 
-## ✅ Database Storage
+## ✅ Database Layer
 
-Uses SQLite for persistent storage.
+Uses **SQLite** for persistent local storage.
 
-Features:
-- Create products table
-- Insert cleaned products
-- Store transformed data locally
+Implemented:
+
+* Products table
+* Users table
+* Orders table
+* Composite primary key
+* Foreign key relationships
+* Insert pipelines
+* Database unit tests
+
+### Database Schema
+
+**products**
+
+* product_id
+* name
+* category
+* price
+* rating_score
+* rating_count
+
+**users**
+
+* user_id
+* name
+* email
+* city
+* street
+* zipcode
+* phone
+
+**orders**
+
+* order_id
+* user_id
+* product_id
+* quantity
+* order_date
+
+---
 
 ## ✅ SQL Analytics
 
-Implemented analytics queries:
+Implemented analytical queries:
 
-- Product count
-- Average price
-- Products per category
-- Top expensive products
-- Products above a price threshold
-- Price segmentation using CASE WHEN
+* Product count
+* Average product price
+* Products per category
+* Products above a given price
+* Top expensive products
+* Price segmentation
+* Category price summary (CTE)
+* Ranked products by price (Window Function)
+* Highest-rated products
+* Revenue per category
+* Orders with user and product details (JOIN)
+* Top products by quantity purchased
+* Top users by order count
+
+---
 
 ## ✅ API Ingestion
 
-Uses:
+Technologies:
 
-- `requests`
-- Fake Store API
+* Python `requests`
+* Fake Store API
 
-Example endpoint:
+Endpoints:
 
-```text
-https://fakestoreapi.com/products
-```
+* `/products`
+* `/users`
+* `/carts`
 
 ---
 
 ## ✅ Data Cleaning
 
-Transformation examples:
+Implemented transformations:
 
-- remove invalid products
-- normalize categories
-- trim extra spaces
-- enforce numeric price type
-- rename fields
+* Remove invalid records
+* Normalize categories
+* Trim extra spaces
+* Convert price to numeric type
+* Rename API fields
+* Flatten nested order/cart data
 
 ---
 
 ## ✅ Testing
 
-Uses:
+Uses **pytest**.
 
-- `pytest`
+Covered:
+
+* ETL unit tests
+* Database unit tests
+* Analytics unit tests
 
 Run tests:
 
@@ -135,44 +215,56 @@ docker run mini-data-platform
 
 ## ✅ GitHub Actions
 
-CI pipeline automatically:
+Continuous Integration automatically:
 
-- installs dependencies
-- runs tests
-- runs ETL pipeline
-
----
+* Installs dependencies
+* Runs unit tests
+* Executes the ETL pipeline
 
 # 🛠️ Tech Stack
 
-- Python
-- SQLite
-- SQL
-- Pytest
-- Docker
-- GitHub Actions
-- REST APIs
+## Current
 
-Planned:
-- Kafka
-- Apache Beam
-- Dataflow
-- Spark
-- BigQuery
-- Redis
-- Terraform
+* Python
+* SQLite
+* SQL
+* Pytest
+* Docker
+* GitHub Actions
+* REST APIs
+* Logging
+
+## Planned
+
+* FastAPI
+* Redis
+* Apache Airflow
+* dbt
+* Apache Kafka
+* Apache Spark (Batch & Streaming)
+* Google BigQuery
+* Apache Beam / Google Dataflow
+* Terraform
 
 ---
 
 # ▶️ Run Locally
 
-Create virtual environment:
+Create a virtual environment:
 
 ```bash
 python3 -m venv venv
 ```
 
-Activate:
+Activate the virtual environment:
+
+**macOS / Linux**
+
+```bash
+source venv/bin/activate
+```
+
+**Fish shell**
 
 ```bash
 source venv/bin/activate.fish
@@ -184,27 +276,45 @@ Install dependencies:
 pip install -r requirements.txt
 ```
 
-Run project:
+Run the application:
 
 ```bash
-python src/main.py
+python -m src.main
+```
+
+Run unit tests:
+
+```bash
+python -m pytest
 ```
 
 ---
 
 # 📚 Learning Focus
 
-This repository is focused on learning:
+This project is designed to practice real-world Data Engineering concepts, including:
 
-- Data Engineering fundamentals
-- ETL pipelines
-- API integration
-- Testing
-- CI/CD
-- Containerization
-- Data processing
-- SQL and analytics concepts
-- GCP services used for DE like Bigquery
-- SQL aggregations, GROUP BY, CASE WHEN, Filtering with WHERE
-- Database integration
-- Data modeling fundamentals
+* Python for Data Engineering
+* Batch ETL pipelines
+* REST API integration
+* Data cleaning, normalization and validation
+* SQLite database design
+* Data modeling fundamentals
+* SQL fundamentals
+* SQL aggregations
+* GROUP BY, WHERE and CASE WHEN
+* JOINs
+* CTEs
+* Window Functions
+* Unit testing with Pytest
+* Logging and error handling
+* GitHub Actions (CI/CD)
+* Docker containerization
+* Data quality concepts
+* BigQuery fundamentals
+* Apache Airflow
+* dbt
+* Apache Kafka
+* Apache Spark
+* Apache Beam / Google Dataflow
+* Terraform
