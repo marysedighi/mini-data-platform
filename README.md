@@ -42,11 +42,13 @@ mini-data-platform/
 │   ├── etl.py                 # Extract, clean and validate data
 │   ├── database.py            # SQLite tables and insert operations
 │   └── analytics.py           # SQL analytics queries
+│   └── data_quality.py        # Checking quality of data
 │
 ├── tests/
 │   ├── test_etl.py
 │   ├── test_database.py
 │   └── test_analytics.py
+│   └── test_data_quality.py
 │
 ├── data/
 │   ├── products.json
@@ -128,6 +130,19 @@ Implemented:
 * product_id
 * quantity
 * order_date
+
+---
+
+## ✅ Data Quality Check
+
+Implemented queries:
+
+* Check null Products
+* Check null Users
+* Check duplicated Products
+* Check duplicated Users
+* Check Orders with invalid references
+* Check Row Counts for Users, Products and Orders
 
 ---
 
