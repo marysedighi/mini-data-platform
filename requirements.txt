@@ -1,3 +1,5 @@
 pytest
 requests
 pyspark
+fastapi
+uvicorn

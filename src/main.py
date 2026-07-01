@@ -6,7 +6,7 @@ from src.database import (create_orders_table, create_products_table, create_use
                 insert_orders, insert_products, insert_users)
 
 from src.analytics import(get_orders_with_user_and_product_details, get_product_count, 
-                get_average_price, get_products_per_category, get_products_with_high_rating, get_revenue_per_category, get_top_expensive_products, 
+                get_average_price, get_products_with_high_rating, get_revenue_per_category, get_top_expensive_products, 
                 get_products_above_price, get_price_segmentation, get_category_price_summary, get_ranked_products_by_price, get_top_products_by_quantity_purchased, 
                 get_top_rated_products, get_top_users_by_order_count)
 
