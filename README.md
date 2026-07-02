@@ -165,6 +165,7 @@ Implemented analytical queries:
 * Orders with user and product details (JOIN)
 * Top products by quantity purchased
 * Top users by order count
+* get_products_by_id
 
 ---
 
@@ -184,6 +185,7 @@ Interactive API documentation:
 
 ```text
 http://127.0.0.1:8000/docs
+```
 ---
 
 ## ✅ Data Cleaning
@@ -253,10 +255,10 @@ Continuous Integration automatically:
 * GitHub Actions
 * REST APIs
 * Logging
+* FastAPI
 
 ## Planned
 
-* FastAPI
 * Redis
 * Apache Airflow
 * dbt
@@ -312,7 +314,7 @@ Start the API:
 
 ```bash
 uvicorn src.api:app --reload
----
+```
 
 # 📚 Learning Focus
 
