@@ -43,12 +43,14 @@ mini-data-platform/
 │   ├── database.py            # SQLite tables and insert operations
 │   └── analytics.py           # SQL analytics queries
 │   └── data_quality.py        # Checking quality of data
+│   └── api.py                 # Api endpoints
 │
 ├── tests/
 │   ├── test_etl.py
 │   ├── test_database.py
 │   └── test_analytics.py
 │   └── test_data_quality.py
+│   └── test_api.py
 │
 ├── data/
 │   ├── products.json
@@ -166,19 +168,22 @@ Implemented analytical queries:
 
 ---
 
-## ✅ API Ingestion
+## ✅ REST API
 
-Technologies:
+Built with **FastAPI**.
 
-* Python `requests`
-* Fake Store API
+Implemented endpoints:
 
-Endpoints:
+- GET /health
+- GET /analytics/summary
+- GET /analytics/top-users
+- GET /top_rated_products
+- GET /products/{product_id}
 
-* `/products`
-* `/users`
-* `/carts`
+Interactive API documentation:
 
+```text
+http://127.0.0.1:8000/docs
 ---
 
 ## ✅ Data Cleaning
@@ -303,6 +308,10 @@ Run unit tests:
 python -m pytest
 ```
 
+Start the API:
+
+```bash
+uvicorn src.api:app --reload
 ---
 
 # 📚 Learning Focus

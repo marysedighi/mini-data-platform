@@ -5,6 +5,7 @@ from src.analytics import (get_orders_with_user_and_product_details, get_product
                             get_category_price_summary, get_products_with_high_rating,
                             get_ranked_products_by_price, get_revenue_per_category, get_top_products_by_quantity_purchased,
                             get_top_rated_products, get_top_users_by_order_count)
+from src.api import get_product_details
 
 def test_get_product_count():
     count = get_product_count()
@@ -120,3 +121,8 @@ def test_get_top_products_by_quantity_purchased():
         assert isinstance(name, str)
         assert isinstance(total_quantity, int)
         assert total_quantity >= 0
+
+def test_get_product_by_id_not_found():
+    product = get_product_details(9999)
+
+    assert product == {"error": "Product not found"}

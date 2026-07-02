@@ -1,12 +1,13 @@
 from fastapi import FastAPI
 
-from src.analytics import get_product_count, get_revenue_per_category, get_top_rated_products, get_top_users_by_order_count
+from src.analytics import get_product_count, get_products_by_id, get_revenue_per_category, get_top_rated_products, get_top_users_by_order_count
 
 app = FastAPI()
 
 @app.get("/health")
 def health_check():
     return {"status": "ok"}
+
 
 @app.get("/analytics/summary")
 def analytics_summary():
@@ -15,6 +16,7 @@ def analytics_summary():
         "product_count": get_product_count(),
         "revenue_per_category": get_revenue_per_category()
     }
+
 
 @app.get("/top_rated_products")
 def get_top_rated_products_endpoint():
@@ -29,10 +31,10 @@ def get_top_rated_products_endpoint():
         for product in products
     ]
 
+
 @app.get("/products/{product_id}")
 def get_product_details(product_id: int):
-    products = get_top_rated_products()
-    product = next((p for p in products if p[0] == product_id), None)
+    product = get_products_by_id(product_id)
     if product:
         return {
             "product_id": product[0],
@@ -42,7 +44,16 @@ def get_product_details(product_id: int):
         }
     else:
         return {"error": "Product not found"}
+    
 
 @app.get("/analytics/top-users")
 def get_top_users():
-    return get_top_users_by_order_count(5)
+    users = get_top_users_by_order_count(5)
+    return [
+        {
+            "user_id": user[0],
+            "name": user[1],
+            "order_count": user[2]
+        }
+        for user in users
+    ]

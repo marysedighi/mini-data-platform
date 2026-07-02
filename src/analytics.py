@@ -279,3 +279,21 @@ def get_highest_rated_products_per_category():
     connection.close()
 
     return result if result else []
+
+def get_products_by_id(product_id): 
+    connection = get_connection()
+    cursor = connection.cursor()
+
+    cursor.execute(
+        """
+        SELECT product_id, name, price, rating_score
+        FROM products
+        WHERE product_id = ?
+    """, (product_id,)
+    )
+
+    result = cursor.fetchone()
+
+    connection.close()
+
+    return result if result else []
