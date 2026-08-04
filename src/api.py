@@ -1,4 +1,5 @@
 from fastapi import FastAPI
+from src.cache import check_connection
 
 from src.analytics import get_product_count, get_products_by_id, get_revenue_per_category, get_top_rated_products, get_top_users_by_order_count
 
@@ -6,7 +7,8 @@ app = FastAPI()
 
 @app.get("/health")
 def health_check():
-    return {"status": "ok"}
+    return {"status": "ok",
+            "redis" : "connected" if check_connection() else "not connected"}
 
 
 @app.get("/analytics/summary")

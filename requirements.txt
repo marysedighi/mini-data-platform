@@ -3,3 +3,4 @@ requests
 pyspark
 fastapi
 uvicorn
+redis
