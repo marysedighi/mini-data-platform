@@ -1,8 +1,12 @@
+from urllib import response
+
 from src.api import (get_product_details, get_top_rated_products_endpoint, analytics_summary, health_check, get_top_users)
 
 def test_health_check():
     response = health_check()
-    assert response == {"status": "ok"}
+    assert response["status"] == "ok"
+
+    assert response["redis"] in ["connected", "not connected"]
 
 def test_analytics_summary():
     response = analytics_summary()
