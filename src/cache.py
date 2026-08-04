@@ -1,3 +1,4 @@
+import json
 import os
 import redis
 
@@ -14,3 +15,25 @@ def check_connection():
         return True
     except redis.ConnectionError:
         return False
+
+
+def get_cache_data(key: str):
+    try:
+
+        cached_data = redis_client.get(key)
+
+        if cached_data is None:
+            return None
+
+        return json.loads(cached_data)
+
+    except redis.ConnectionError:
+        return None
+
+
+def set_cache_data(key: str, data, ttl: int = 60):
+    try:
+        redis_client.setex(key, ttl, json.dumps(data))
+        
+    except redis.ConnectionError:
+        pass

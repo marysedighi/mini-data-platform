@@ -1,5 +1,5 @@
 from fastapi import FastAPI
-from src.cache import check_connection
+from src.cache import check_connection, get_cache_data, set_cache_data
 
 from src.analytics import get_product_count, get_products_by_id, get_revenue_per_category, get_top_rated_products, get_top_users_by_order_count
 
@@ -14,9 +14,26 @@ def health_check():
 @app.get("/analytics/summary")
 def analytics_summary():
 
-    return {
+    cache_key = "analytics_summary"
+
+    cached_data = get_cache_data(cache_key)
+
+    if cached_data is not None:
+        return {
+            **cached_data,
+            "cached": "hit"
+        }
+
+    result = {
         "product_count": get_product_count(),
         "revenue_per_category": get_revenue_per_category()
+    }
+
+    set_cache_data(cache_key, result, ttl=60)
+
+    return {
+        **result,
+        "cached": "miss"
     }
 
 
