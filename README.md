@@ -17,10 +17,10 @@ This project demonstrates:
 - Logging and error handling
 - GitHub Actions CI
 - Docker containerization
+- FastAPI REST API
 
 ### 🔜 Planned Enhancements
 
-- FastAPI REST API
 - Redis caching
 - Apache Airflow orchestration
 - dbt analytics engineering
