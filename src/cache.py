@@ -27,7 +27,7 @@ def get_cache_data(key: str):
 
         return json.loads(cached_data)
 
-    except redis.ConnectionError:
+    except redis.RedisError:
         return None
 
 
@@ -35,5 +35,5 @@ def set_cache_data(key: str, data, ttl: int = 60):
     try:
         redis_client.setex(key, ttl, json.dumps(data))
         
-    except redis.ConnectionError:
+    except redis.RedisError:
         pass
