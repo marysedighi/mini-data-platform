@@ -14,7 +14,7 @@ def health_check():
 @app.get("/analytics/summary")
 def analytics_summary():
 
-    cache_key = "analytics_summary"
+    cache_key = "analytics:summary"
 
     cached_data = get_cache_data(cache_key)
 

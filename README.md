@@ -18,17 +18,20 @@ This project demonstrates:
 - GitHub Actions CI
 - Docker containerization
 - FastAPI REST API
+- Redis Caching
+- Docker Compose multi-container setup
 
 ### 🔜 Planned Enhancements
 
-- Redis caching
 - Apache Airflow orchestration
 - dbt analytics engineering
 - Apache Kafka streaming
 - Apache Spark (Batch & Streaming)
 - Google BigQuery
+- Azure Data Lake Storage / Azure Event Hubs / Azure Data Factory
 - Apache Beam / Google Dataflow
 - Terraform Infrastructure as Code
+- Databricks
 
 ---
 
@@ -44,6 +47,7 @@ mini-data-platform/
 │   └── analytics.py           # SQL analytics queries
 │   └── data_quality.py        # Checking quality of data
 │   └── api.py                 # Api endpoints
+│   └── cache.py                 # handle caching with Redis 
 │
 ├── tests/
 │   ├── test_etl.py
@@ -66,13 +70,11 @@ mini-data-platform/
 │       └── python-ci.yml
 │
 ├── Dockerfile
-├── .dockerignore
+├── compose.yaml
 ├── requirements.txt
-├── .env.example
 ├── .gitignore
 └── README.md
 ```
-
 ---
 
 # ⚙️ Features Implemented
@@ -175,8 +177,8 @@ Built with **FastAPI**.
 
 Implemented endpoints:
 
-- GET /health
-- GET /analytics/summary
+- GET /health — API and Redis connection status
+- GET /analytics/summary — cached analytics summary with a 60-second TTL
 - GET /analytics/top-users
 - GET /top_rated_products
 - GET /products/{product_id}
@@ -210,27 +212,49 @@ Covered:
 * ETL unit tests
 * Database unit tests
 * Analytics unit tests
+* Api unit tests
+* data quality unit tests
 
 Run tests:
 
 ```bash
 python -m pytest
 ```
-
 ---
 
-## ✅ Docker
+## ✅ Docker Compose and Redis
 
-Build image:
+The application runs as two services:
+
+- `api` — FastAPI application
+- `redis` — Redis cache
+
+Build and start the services:
 
 ```bash
-docker build -t mini-data-platform .
+docker compose up -d --build
 ```
 
-Run container:
+Run the ETL pipeline to populate SQLite:
 
 ```bash
-docker run mini-data-platform
+docker compose exec api python -m src.main
+```
+
+Open the API documentation:
+http://localhost:8000/docs
+
+
+Check running services:
+
+```bash
+docker compose ps
+```
+
+Stop the services:
+
+```bash
+docker compose down
 ```
 
 ---
@@ -256,17 +280,19 @@ Continuous Integration automatically:
 * REST APIs
 * Logging
 * FastAPI
+* Redis
+* Docker compose
 
 ## Planned
 
-* Redis
 * Apache Airflow
 * dbt
 * Apache Kafka
 * Apache Spark (Batch & Streaming)
 * Google BigQuery
 * Apache Beam / Google Dataflow
-* Terraform
+* Terraform 
+* Azure Cloud Computing Services
 
 ---
 
@@ -296,6 +322,11 @@ Install dependencies:
 
 ```bash
 pip install -r requirements.txt
+```
+or 
+
+```bash
+docker compose up -d --build
 ```
 
 Run the application:
@@ -344,3 +375,4 @@ This project is designed to practice real-world Data Engineering concepts, inclu
 * Apache Spark
 * Apache Beam / Google Dataflow
 * Terraform
+* Azure Cloud Computing services
