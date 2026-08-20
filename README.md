@@ -47,7 +47,7 @@ mini-data-platform/
 │   └── analytics.py           # SQL analytics queries
 │   └── data_quality.py        # Checking quality of data
 │   └── api.py                 # Api endpoints
-│   └── cache.py                 # handle caching with Redis 
+│   └── cache.py               # handle caching with Redis 
 │
 ├── tests/
 │   ├── test_etl.py
@@ -212,8 +212,8 @@ Covered:
 * ETL unit tests
 * Database unit tests
 * Analytics unit tests
-* Api unit tests
-* data quality unit tests
+* API unit tests
+* Data quality unit tests
 
 Run tests:
 
@@ -281,7 +281,7 @@ Continuous Integration automatically:
 * Logging
 * FastAPI
 * Redis
-* Docker compose
+* Docker Compose
 
 ## Planned
 
@@ -323,7 +323,7 @@ Install dependencies:
 ```bash
 pip install -r requirements.txt
 ```
-or 
+or:
 
 ```bash
 docker compose up -d --build
