@@ -33,7 +33,7 @@ def get_cache_data(key: str):
 
 def set_cache_data(key: str, data, ttl: int = 60):
     try:
-        redis_client.setex(key, ttl, json.dumps(data))
+        redis_client.set(key, json.dumps(data), ex=ttl)
         
     except redis.RedisError:
         pass
