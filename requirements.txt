@@ -4,3 +4,4 @@ pyspark
 fastapi
 uvicorn
 redis
+google-cloud-bigquery
