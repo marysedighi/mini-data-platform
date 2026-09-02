@@ -5,5 +5,5 @@ CREATE TABLE IF NOT EXISTS
   user_id INT64 NOT NULL,
   product_id INT64 NOT NULL,
   quantity INT64 NOT NULL,
-  order_date STRING
+  order_date TIMESTAMP,
 );

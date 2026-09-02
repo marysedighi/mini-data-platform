@@ -1,7 +1,8 @@
 from datetime import datetime, timedelta
 
 from airflow.sdk import DAG, task
-from airflow.utils.trigger_rule import TriggerRule
+from airflow.task.trigger_rule import TriggerRule
+from src.bigquery_loader import load_all_tables
 
 from src.main import (
     products_pipeline,
@@ -58,11 +59,16 @@ with DAG(
         print("Invalid order references:", check_orders_with_invalid_references())
         print("Row counts:", check_row_counts())
 
+    @task
+    def load_to_bigquery():
+        load_all_tables()
+        return "Data loaded to BigQuery"
+
     products = process_products()
     users = process_users()
     orders = process_orders()
     quality = run_data_quality()
-
+    bigquery_load = load_to_bigquery()
     status_report = report_status(orders)
 
-    [products, users] >> orders >> quality
+    [products, users] >> orders >> quality >> bigquery_load
