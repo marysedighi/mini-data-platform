@@ -1,4 +1,4 @@
-# Mini Data Platform
+# 🏗️ Mini Data Platform
 
 A hands-on data engineering project that ingests product, user, and order data, cleans and validates it, stores it in SQLite, exposes analytics through a FastAPI service, caches selected API responses in Redis, and orchestrates the ETL flow with Apache Airflow.
 
@@ -32,7 +32,7 @@ Orchestration:
 Apache Airflow DAG -> ETL pipelines -> data quality checks
 ```
 
-## Infrastructure
+## ⚙️ Infrastructure
 
 The local infrastructure is defined in `compose.yaml`.
 
@@ -55,7 +55,7 @@ The Airflow container mounts:
 - `./src:/opt/airflow/src`
 - `./data:/opt/airflow/data`
 
-## Project Structure
+## 📁 Project Structure
 
 ```text
 mini-data-platform/
@@ -99,7 +99,7 @@ mini-data-platform/
 └── README.md
 ```
 
-## Features
+## ✨ Features
 
 ### Batch ETL
 
@@ -126,7 +126,7 @@ Current tables:
 
 The schema supports product, user, and order analytics with foreign key relationships between orders, users, and products.
 
-### Data Quality Checks
+### ✅ Data Quality Checks
 
 Implemented checks include:
 
@@ -137,7 +137,7 @@ Implemented checks include:
 - Orders with invalid user or product references
 - Row counts for products, users, and orders
 
-### SQL Analytics
+### 📊 SQL Analytics
 
 Implemented analytics include:
 
@@ -156,7 +156,7 @@ Implemented analytics include:
 - Top users by order count
 - Product lookup by ID
 
-### FastAPI Service
+### 🚀 FastAPI Service
 
 The API is defined in `src/api.py`.
 
@@ -212,7 +212,7 @@ Airflow UI:
 http://localhost:8080
 ```
 
-### BigQuery
+### ☁️ BigQuery
 
 BigQuery support is included through:
 
@@ -247,7 +247,7 @@ The CI workflow runs on pushes and pull requests to `main`. It:
 - Runs `pytest`
 - Runs `python -m src.main`
 
-## Run Locally
+## ▶️ Run Locally
 
 Create and activate a virtual environment:
 
@@ -286,7 +286,7 @@ Start the API locally without Docker:
 uvicorn src.api:app --reload
 ```
 
-## Run With Docker Compose
+## 🐳 Run With Docker Compose
 
 Build and start all services:
 
@@ -360,7 +360,6 @@ Current:
 - SQLite
 - Redis
 - Apache Airflow
-- PostgreSQL for Airflow metadata
 - Docker
 - Docker Compose
 - Google BigQuery client
@@ -374,10 +373,9 @@ Planned or future enhancements:
 - Spark batch and streaming jobs
 - Apache Beam / Google Dataflow
 - Terraform infrastructure as code
-- Azure Data Lake, Event Hubs, and Data Factory
 - Databricks
 
-## Learning Focus
+## 🎓 Learning Focus
 
 This project is designed to practice:
 
