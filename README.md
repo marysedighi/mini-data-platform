@@ -1,320 +1,264 @@
 # Mini Data Platform
 
-A simple Data Engineering project inspired by real-world recommendation and ETL systems.
+A hands-on data engineering project that ingests product, user, and order data, cleans and validates it, stores it in SQLite, exposes analytics through a FastAPI service, caches selected API responses in Redis, and orchestrates the ETL flow with Apache Airflow.
 
-## 🚀 Project Goals
+The project is also set up for containerized local development with Docker Compose and CI validation with GitHub Actions.
 
-This project demonstrates:
+## Architecture
 
+```text
+Fake Store API / local JSON fallback
+        |
+        v
+Python ETL pipelines
+        |
+        v
+Cleaned JSON files in data/
+        |
+        v
+SQLite database
+        |
+        +--> SQL analytics queries
+        |
+        +--> FastAPI REST API
+                |
+                v
+              Redis cache
 
-- Batch ETL pipelines
-- API data ingestion (Products, Users, Orders)
-- Data cleaning, normalization, and validation
-- SQLite database design
-- SQL analytics (SELECT, GROUP BY, JOINs, CTEs, Window Functions)
-- Data quality checks
-- Python unit testing with pytest
-- Logging and error handling
-- GitHub Actions CI
-- Docker containerization
-- FastAPI REST API
-- Redis Caching
-- Docker Compose multi-container setup
+Optional cloud path:
+Cleaned JSON files -> BigQuery schema setup -> BigQuery table loads
 
-### 🔜 Planned Enhancements
+Orchestration:
+Apache Airflow DAG -> ETL pipelines -> data quality checks
+```
 
-- Apache Airflow orchestration
-- dbt analytics engineering
-- Apache Kafka streaming
-- Apache Spark (Batch & Streaming)
-- Google BigQuery
-- Azure Data Lake Storage / Azure Event Hubs / Azure Data Factory
-- Apache Beam / Google Dataflow
-- Terraform Infrastructure as Code
-- Databricks
+## Infrastructure
 
----
+The local infrastructure is defined in `compose.yaml`.
 
-# 🏗️ Project Structure
+| Service | Purpose | Port |
+| --- | --- | --- |
+| `api` | FastAPI app served by Uvicorn | `8000` |
+| `redis` | Cache for API analytics responses | internal `6379` |
+| `airflow-db` | PostgreSQL metadata database for Airflow | internal |
+| `airflow-init` | Runs Airflow database migrations | none |
+| `airflow` | Airflow standalone webserver/scheduler | `8080` |
+
+The API container mounts:
+
+- `./src:/app/src`
+- `./data:/app/data`
+
+The Airflow container mounts:
+
+- `./airflow/dags:/opt/airflow/dags`
+- `./src:/opt/airflow/src`
+- `./data:/opt/airflow/data`
+
+## Project Structure
 
 ```text
 mini-data-platform/
-├── src/
-│   ├── __init__.py
-│   ├── main.py                # Runs ETL pipelines and analytics
-│   ├── etl.py                 # Extract, clean and validate data
-│   ├── database.py            # SQLite tables and insert operations
-│   └── analytics.py           # SQL analytics queries
-│   └── data_quality.py        # Checking quality of data
-│   └── api.py                 # Api endpoints
-│   └── cache.py               # handle caching with Redis 
-│
-├── tests/
-│   ├── test_etl.py
-│   ├── test_database.py
-│   └── test_analytics.py
-│   └── test_data_quality.py
-│   └── test_api.py
-│
+├── airflow/
+│   └── dags/
+│       ├── airflow_test_dag.py
+│       └── etl_pipeline_dag.py
+├── bigquery/
+│   └── schemas/
+│       ├── orders.sql
+│       ├── products.sql
+│       └── users.sql
 ├── data/
-│   ├── products.json
-│   ├── users.json
-│   ├── orders.json
+│   ├── cleaned_orders.json
 │   ├── cleaned_products.json
 │   ├── cleaned_users.json
-│   ├── cleaned_orders.json
-│   └── mini_data_platform.db
-│
-├── .github/
-│   └── workflows/
-│       └── python-ci.yml
-│
+│   ├── mini_data_platform.db
+│   ├── products.json
+│   └── users.json
+├── src/
+│   ├── analytics.py
+│   ├── api.py
+│   ├── bigquery_client.py
+│   ├── bigquery_loader.py
+│   ├── bigquery_setup.py
+│   ├── cache.py
+│   ├── data_quality.py
+│   ├── database.py
+│   ├── etl.py
+│   └── main.py
+├── tests/
+│   ├── test_analytics.py
+│   ├── test_api.py
+│   ├── test_data_quality.py
+│   ├── test_database.py
+│   └── test_etl.py
+├── .github/workflows/python-ci.yml
 ├── Dockerfile
 ├── compose.yaml
 ├── requirements.txt
-├── .gitignore
 └── README.md
 ```
----
 
-# ⚙️ Features Implemented
+## Features
 
-## ✅ Batch ETL Pipeline
+### Batch ETL
 
-* Extract products, users, and orders from Fake Store APIs
-* Fallback to local JSON files
-* Clean, normalize, and validate data
-* Save cleaned data to JSON
-* Load cleaned data into SQLite
-* ETL pipeline orchestration
-* Error handling and retry logic
-* Logging
+- Fetches products, users, and orders from external APIs.
+- Falls back to local JSON files when needed.
+- Cleans, normalizes, and validates records.
+- Saves cleaned datasets to `data/`.
+- Loads cleaned data into SQLite.
+- Includes logging, retries, and error handling.
 
----
+### SQLite Data Store
 
-## ✅ Database Layer
-
-Uses **SQLite** for persistent local storage.
-
-Implemented:
-
-* Products table
-* Users table
-* Orders table
-* Composite primary key
-* Foreign key relationships
-* Insert pipelines
-* Database unit tests
-
-### Database Schema
-
-**products**
-
-* product_id
-* name
-* category
-* price
-* rating_score
-* rating_count
-
-**users**
-
-* user_id
-* name
-* email
-* city
-* street
-* zipcode
-* phone
-
-**orders**
-
-* order_id
-* user_id
-* product_id
-* quantity
-* order_date
-
----
-
-## ✅ Data Quality Check
-
-Implemented queries:
-
-* Check null Products
-* Check null Users
-* Check duplicated Products
-* Check duplicated Users
-* Check Orders with invalid references
-* Check Row Counts for Users, Products and Orders
-
----
-
-## ✅ SQL Analytics
-
-Implemented analytical queries:
-
-* Product count
-* Average product price
-* Products per category
-* Products above a given price
-* Top expensive products
-* Price segmentation
-* Category price summary (CTE)
-* Ranked products by price (Window Function)
-* Highest-rated products
-* Revenue per category
-* Orders with user and product details (JOIN)
-* Top products by quantity purchased
-* Top users by order count
-* get_products_by_id
-
----
-
-## ✅ REST API
-
-Built with **FastAPI**.
-
-Implemented endpoints:
-
-- GET /health — API and Redis connection status
-- GET /analytics/summary — cached analytics summary with a 60-second TTL
-- GET /analytics/top-users
-- GET /top_rated_products
-- GET /products/{product_id}
-
-Interactive API documentation:
+The local database is stored at:
 
 ```text
-http://127.0.0.1:8000/docs
-```
----
-
-## ✅ Data Cleaning
-
-Implemented transformations:
-
-* Remove invalid records
-* Normalize categories
-* Trim extra spaces
-* Convert price to numeric type
-* Rename API fields
-* Flatten nested order/cart data
-
----
-
-## ✅ Testing
-
-Uses **pytest**.
-
-Covered:
-
-* ETL unit tests
-* Database unit tests
-* Analytics unit tests
-* API unit tests
-* Data quality unit tests
-
-Run tests:
-
-```bash
-python -m pytest
-```
----
-
-## ✅ Docker Compose and Redis
-
-The application runs as two services:
-
-- `api` — FastAPI application
-- `redis` — Redis cache
-
-Build and start the services:
-
-```bash
-docker compose up -d --build
+data/mini_data_platform.db
 ```
 
-Run the ETL pipeline to populate SQLite:
+Current tables:
 
-```bash
-docker compose exec api python -m src.main
-```
+- `products`
+- `users`
+- `orders`
 
-Open the API documentation:
+The schema supports product, user, and order analytics with foreign key relationships between orders, users, and products.
+
+### Data Quality Checks
+
+Implemented checks include:
+
+- Null product fields
+- Null user fields
+- Duplicate products
+- Duplicate users
+- Orders with invalid user or product references
+- Row counts for products, users, and orders
+
+### SQL Analytics
+
+Implemented analytics include:
+
+- Product count
+- Average product price
+- Products by category
+- Products above a selected price
+- Top expensive products
+- Price segmentation
+- Category price summary with CTEs
+- Ranked products by price with window functions
+- Highest-rated products
+- Revenue per category
+- Orders with user and product details
+- Top products by purchased quantity
+- Top users by order count
+- Product lookup by ID
+
+### FastAPI Service
+
+The API is defined in `src/api.py`.
+
+Available endpoints:
+
+| Method | Endpoint | Description |
+| --- | --- | --- |
+| `GET` | `/health` | API status and Redis connection status |
+| `GET` | `/analytics/summary` | Product count and revenue by category, cached for 60 seconds |
+| `GET` | `/analytics/top-users` | Top users by order count |
+| `GET` | `/top_rated_products` | Highest-rated products |
+| `GET` | `/products/{product_id}` | Product details by ID |
+
+API documentation is available at:
+
+```text
 http://localhost:8000/docs
-
-
-Check running services:
-
-```bash
-docker compose ps
 ```
 
-Stop the services:
+### Redis Cache
 
-```bash
-docker compose down
+Redis is used by the API service for cached analytics responses. The Docker Compose setup passes these environment variables to the API container:
+
+```text
+REDIS_HOST=redis
+REDIS_PORT=6379
 ```
 
----
+### Apache Airflow
 
-## ✅ GitHub Actions
+Airflow orchestration is implemented in:
 
-Continuous Integration automatically:
+```text
+airflow/dags/etl_pipeline_dag.py
+```
 
-* Installs dependencies
-* Runs unit tests
-* Executes the ETL pipeline
+The `etl_pipeline` DAG runs:
 
-# 🛠️ Tech Stack
+1. Products pipeline
+2. Users pipeline
+3. Orders pipeline
+4. Data quality checks
 
-## Current
+There is also a small test DAG at:
 
-* Python
-* SQLite
-* SQL
-* Pytest
-* Docker
-* GitHub Actions
-* REST APIs
-* Logging
-* FastAPI
-* Redis
-* Docker Compose
+```text
+airflow/dags/airflow_test_dag.py
+```
 
-## Planned
+Airflow UI:
 
-* Apache Airflow
-* dbt
-* Apache Kafka
-* Apache Spark (Batch & Streaming)
-* Google BigQuery
-* Apache Beam / Google Dataflow
-* Terraform 
-* Azure Cloud Computing Services
+```text
+http://localhost:8080
+```
 
----
+### BigQuery
 
-# ▶️ Run Locally
+BigQuery support is included through:
 
-Create a virtual environment:
+- `src/bigquery_client.py`
+- `src/bigquery_setup.py`
+- `src/bigquery_loader.py`
+- `bigquery/schemas/*.sql`
+
+Current BigQuery configuration:
+
+```text
+PROJECT_ID=mini-data-platform-507211
+DATASET_ID=mini_data_platform
+LOCATION=europe-west4
+```
+
+The setup script runs the SQL schema files. The loader script loads cleaned JSON data into the existing BigQuery tables with `WRITE_TRUNCATE`.
+
+### CI
+
+GitHub Actions is configured in:
+
+```text
+.github/workflows/python-ci.yml
+```
+
+The CI workflow runs on pushes and pull requests to `main`. It:
+
+- Checks out the repository
+- Sets up Python 3.12
+- Installs dependencies
+- Runs `pytest`
+- Runs `python -m src.main`
+
+## Run Locally
+
+Create and activate a virtual environment:
 
 ```bash
 python3 -m venv venv
-```
-
-Activate the virtual environment:
-
-**macOS / Linux**
-
-```bash
 source venv/bin/activate
 ```
 
-**Fish shell**
+For fish shell:
 
-```bash
+```fish
 source venv/bin/activate.fish
 ```
 
@@ -323,56 +267,132 @@ Install dependencies:
 ```bash
 pip install -r requirements.txt
 ```
-or:
 
-```bash
-docker compose up -d --build
-```
-
-Run the application:
+Run the ETL pipeline and analytics:
 
 ```bash
 python -m src.main
 ```
 
-Run unit tests:
+Run tests:
 
 ```bash
 python -m pytest
 ```
 
-Start the API:
+Start the API locally without Docker:
 
 ```bash
 uvicorn src.api:app --reload
 ```
 
-# 📚 Learning Focus
+## Run With Docker Compose
 
-This project is designed to practice real-world Data Engineering concepts, including:
+Build and start all services:
 
-* Python for Data Engineering
-* Batch ETL pipelines
-* REST API integration
-* Data cleaning, normalization and validation
-* SQLite database design
-* Data modeling fundamentals
-* SQL fundamentals
-* SQL aggregations
-* GROUP BY, WHERE and CASE WHEN
-* JOINs
-* CTEs
-* Window Functions
-* Unit testing with Pytest
-* Logging and error handling
-* GitHub Actions (CI/CD)
-* Docker containerization
-* Data quality concepts
-* BigQuery fundamentals
-* Apache Airflow
-* dbt
-* Apache Kafka
-* Apache Spark
-* Apache Beam / Google Dataflow
-* Terraform
-* Azure Cloud Computing services
+```bash
+docker compose up -d --build
+```
+
+Run the ETL pipeline inside the API container:
+
+```bash
+docker compose exec api python -m src.main
+```
+
+Open the API docs:
+
+```text
+http://localhost:8000/docs
+```
+
+Open Airflow:
+
+```text
+http://localhost:8080
+```
+
+Check running services:
+
+```bash
+docker compose ps
+```
+
+Stop services:
+
+```bash
+docker compose down
+```
+
+Stop services and remove the Airflow metadata database volume:
+
+```bash
+docker compose down -v
+```
+
+## BigQuery Workflow
+
+Authenticate with Google Cloud before running BigQuery scripts:
+
+```bash
+gcloud auth application-default login
+```
+
+Create or update BigQuery tables from SQL schema files:
+
+```bash
+python -m src.bigquery_setup
+```
+
+Load cleaned JSON data into BigQuery:
+
+```bash
+python -m src.bigquery_loader
+```
+
+## Tech Stack
+
+Current:
+
+- Python 3.12
+- FastAPI
+- Uvicorn
+- SQLite
+- Redis
+- Apache Airflow
+- PostgreSQL for Airflow metadata
+- Docker
+- Docker Compose
+- Google BigQuery client
+- Pytest
+- GitHub Actions
+
+Planned or future enhancements:
+
+- dbt analytics engineering
+- Kafka streaming
+- Spark batch and streaming jobs
+- Apache Beam / Google Dataflow
+- Terraform infrastructure as code
+- Azure Data Lake, Event Hubs, and Data Factory
+- Databricks
+
+## Learning Focus
+
+This project is designed to practice:
+
+- Python for data engineering
+- Batch ETL pipelines
+- REST API ingestion
+- Data cleaning and normalization
+- Data validation and data quality checks
+- SQLite database design
+- SQL analytics
+- Joins, CTEs, and window functions
+- FastAPI API development
+- Redis caching
+- Dockerized development
+- Airflow orchestration
+- BigQuery table setup and loading
+- Unit testing with Pytest
+- CI with GitHub Actions
