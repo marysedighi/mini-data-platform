@@ -2,6 +2,7 @@ import json
 from pathlib import Path
 
 from google.cloud import bigquery
+from datetime import datetime, timezone
 
 from src.bigquery_client import (
     get_bigquery_client,
@@ -23,6 +24,11 @@ def load_json_to_bigquery(file_name: str, table_name: str):
     # Read cleaned data from json
     with open(file_path, "r", encoding="utf-8") as file:
         rows = json.load(file)
+
+        loaded_at = datetime.now(timezone.utc).replace(microsecond=0).isoformat()
+
+        for row in rows:
+            row["loaded_at"] = loaded_at
 
     #Full BQ table name: project_id.dataset_id.table_name
     table_id = f"{PROJECT_ID}.{DATASET_ID}.{table_name}"

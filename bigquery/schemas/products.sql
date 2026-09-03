@@ -6,5 +6,6 @@ CREATE TABLE IF NOT EXISTS
   category STRING NOT NULL,
   price FLOAT64 NOT NULL,
   rating_score FLOAT64,
-  rating_count INT64
+  rating_count INT64,
+  loaded_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP()
 );

@@ -7,5 +7,6 @@ CREATE TABLE IF NOT EXISTS
   city STRING,
   street STRING,
   zipcode STRING,
-  phone STRING
+  phone STRING,
+  loaded_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP()
 );
