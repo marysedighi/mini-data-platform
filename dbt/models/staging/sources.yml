@@ -1,0 +1,15 @@
+version: 2
+
+sources:
+  - name: mini_data_platform_raw_data
+    description: "This is the source for the mini data platform"
+    database: mini-data-platform-507211
+    schema: mini_data_platform
+
+    tables:
+      - name: products
+        description: "This table contains product information"
+      - name: users
+        description: "This table contains user information"
+      - name: orders
+        description: "This table contains order information"

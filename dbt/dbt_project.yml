@@ -1,0 +1,19 @@
+name: 'mini_data_platform'
+version: '1.0.0'
+
+profile: 'mini_data_platform'
+
+model-paths: ["models"]
+analysis-paths: ["analyses"]
+test-paths: ["tests"]
+seed-paths: ["seeds"]
+macro-paths: ["macros"]
+snapshot-paths: ["snapshots"]
+
+clean-targets:
+  - "target"
+  - "dbt_packages"
+
+models:
+  mini_data_platform:
+    +materialized: view
