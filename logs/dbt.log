@@ -1,0 +1,154 @@
+[0m22:31:02.747971 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'start', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x10dd0a330>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x10e723d70>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x10e7239b0>]}
+
+
+============================== 22:31:02.750866 | 603122a6-16d8-4402-a08d-dba4407a452e ==============================
+[0m22:31:02.750866 [info ] [MainThread]: Running with dbt=1.12.4
+[0m22:31:02.751183 [debug] [MainThread]: running dbt with arguments {'write_json': 'True', 'partial_parse': 'True', 'fail_fast': 'False', 'indirect_selection': 'eager', 'cache_selected_only': 'False', 'hints_enabled': 'True', 'debug': 'False', 'profiles_dir': '/Users/maryam/.dbt', 'target_path': 'None', 'no_print': 'None', 'log_path': 'logs', 'log_cache_events': 'False', 'log_format': 'default', 'use_colors': 'True', 'printer_width': '80', 'invocation_command': 'dbt init', 'introspect': 'True', 'version_check': 'True', 'send_anonymous_usage_stats': 'True', 'maximum_seed_size_mib': '1', 'quiet': 'False', 'warn_error': 'None', 'warn_error_options': 'WarnErrorOptionsV2(error=[], warn=[], silence=[])', 'static_parser': 'True', 'use_experimental_parser': 'False', 'empty': 'None'}
+[0m22:31:02.761599 [info ] [MainThread]: Creating dbt configuration folder at /Users/maryam/.dbt
+[0m22:34:33.645350 [error] [MainThread]: [[31mERROR[0m]: Encountered an error:
+
+[0m22:34:33.657525 [error] [MainThread]: Traceback (most recent call last):
+  File "/Users/maryam/Documents/Recommender service Project/venv/lib/python3.12/site-packages/dbt/cli/requires.py", line 198, in wrapper
+    result, success = func(*args, **kwargs)
+                      ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/maryam/Documents/Recommender service Project/venv/lib/python3.12/site-packages/dbt/cli/requires.py", line 144, in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/maryam/Documents/Recommender service Project/venv/lib/python3.12/site-packages/dbt/cli/main.py", line 504, in init
+    results = task.run()
+              ^^^^^^^^^^
+  File "/Users/maryam/Documents/Recommender service Project/venv/lib/python3.12/site-packages/dbt/task/init.py", line 340, in run
+    project_name = self.get_valid_project_name()
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/maryam/Documents/Recommender service Project/venv/lib/python3.12/site-packages/dbt/task/init.py", line 281, in get_valid_project_name
+    name = click.prompt("Enter a name for your project (letters, digits, underscore)")
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/maryam/Documents/Recommender service Project/venv/lib/python3.12/site-packages/click/termui.py", line 218, in prompt
+    value = prompt_func(prompt)
+            ^^^^^^^^^^^^^^^^^^^
+  File "/Users/maryam/Documents/Recommender service Project/venv/lib/python3.12/site-packages/click/termui.py", line 201, in prompt_func
+    raise Abort() from None
+click.exceptions.Abort
+
+[0m22:34:33.672354 [debug] [MainThread]: Resource report: {"command_name": "init", "command_success": false, "command_wall_clock_time": 210.9772, "process_in_blocks": "0", "process_kernel_time": 0.172082, "process_mem_max_rss": "121225216", "process_out_blocks": "0", "process_user_time": 0.744158}
+[0m22:34:33.673274 [debug] [MainThread]: Command `dbt init` failed at 22:34:33.673095 after 210.98 seconds
+[0m22:34:33.674279 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'end', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x10e723c50>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x10dd09af0>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x10e7580b0>]}
+[0m22:34:33.674868 [debug] [MainThread]: Flushing usage events
+[0m22:34:34.255037 [debug] [MainThread]: An error was encountered while trying to flush usage events
+[0m22:34:41.239622 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'start', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x10a2d9eb0>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x10dc97c50>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x10dc97980>]}
+
+
+============================== 22:34:41.242659 | 56f11aa9-673f-4fbd-a6de-1586af1cffef ==============================
+[0m22:34:41.242659 [info ] [MainThread]: Running with dbt=1.12.4
+[0m22:34:41.243016 [debug] [MainThread]: running dbt with arguments {'maximum_seed_size_mib': '1', 'introspect': 'True', 'use_experimental_parser': 'False', 'write_json': 'True', 'empty': 'None', 'hints_enabled': 'True', 'use_colors': 'True', 'static_parser': 'True', 'debug': 'False', 'log_cache_events': 'False', 'target_path': 'None', 'quiet': 'False', 'warn_error_options': 'WarnErrorOptionsV2(error=[], warn=[], silence=[])', 'indirect_selection': 'eager', 'send_anonymous_usage_stats': 'True', 'no_print': 'None', 'version_check': 'True', 'fail_fast': 'False', 'log_format': 'default', 'partial_parse': 'True', 'profiles_dir': '/Users/maryam/.dbt', 'invocation_command': 'dbt init dbt/', 'warn_error': 'None', 'log_path': 'logs', 'printer_width': '80', 'cache_selected_only': 'False'}
+[0m22:36:07.778110 [error] [MainThread]: [[31mERROR[0m]: Encountered an error:
+
+[0m22:36:07.791107 [error] [MainThread]: Traceback (most recent call last):
+  File "/Users/maryam/Documents/Recommender service Project/venv/lib/python3.12/site-packages/dbt/cli/requires.py", line 198, in wrapper
+    result, success = func(*args, **kwargs)
+                      ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/maryam/Documents/Recommender service Project/venv/lib/python3.12/site-packages/dbt/cli/requires.py", line 144, in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/maryam/Documents/Recommender service Project/venv/lib/python3.12/site-packages/dbt/cli/main.py", line 504, in init
+    results = task.run()
+              ^^^^^^^^^^
+  File "/Users/maryam/Documents/Recommender service Project/venv/lib/python3.12/site-packages/dbt/task/init.py", line 340, in run
+    project_name = self.get_valid_project_name()
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/maryam/Documents/Recommender service Project/venv/lib/python3.12/site-packages/dbt/task/init.py", line 281, in get_valid_project_name
+    name = click.prompt("Enter a name for your project (letters, digits, underscore)")
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/maryam/Documents/Recommender service Project/venv/lib/python3.12/site-packages/click/termui.py", line 218, in prompt
+    value = prompt_func(prompt)
+            ^^^^^^^^^^^^^^^^^^^
+  File "/Users/maryam/Documents/Recommender service Project/venv/lib/python3.12/site-packages/click/termui.py", line 201, in prompt_func
+    raise Abort() from None
+click.exceptions.Abort
+
+[0m22:36:07.798074 [debug] [MainThread]: Resource report: {"command_name": "init", "command_success": false, "command_wall_clock_time": 86.6037, "process_in_blocks": "0", "process_kernel_time": 0.150355, "process_mem_max_rss": "121208832", "process_out_blocks": "0", "process_user_time": 0.759594}
+[0m22:36:07.798925 [debug] [MainThread]: Command `dbt init` failed at 22:36:07.798759 after 86.60 seconds
+[0m22:36:07.800004 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'end', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x10dc97b60>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x10dc976b0>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x10dad3320>]}
+[0m22:36:07.800767 [debug] [MainThread]: Flushing usage events
+[0m22:36:08.257442 [debug] [MainThread]: An error was encountered while trying to flush usage events
+[0m22:36:14.013815 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'start', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x10d5be210>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x10e017dd0>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x10e017b30>]}
+
+
+============================== 22:36:14.016855 | 7e6235e6-02d3-473f-b711-ef081ffcc116 ==============================
+[0m22:36:14.016855 [info ] [MainThread]: Running with dbt=1.12.4
+[0m22:36:14.017192 [debug] [MainThread]: running dbt with arguments {'no_print': 'None', 'log_format': 'default', 'write_json': 'True', 'log_cache_events': 'False', 'cache_selected_only': 'False', 'fail_fast': 'False', 'profiles_dir': '/Users/maryam/.dbt', 'introspect': 'True', 'version_check': 'True', 'static_parser': 'True', 'use_experimental_parser': 'False', 'send_anonymous_usage_stats': 'True', 'quiet': 'False', 'indirect_selection': 'eager', 'partial_parse': 'True', 'invocation_command': 'dbt init dbt', 'printer_width': '80', 'warn_error_options': 'WarnErrorOptionsV2(error=[], warn=[], silence=[])', 'hints_enabled': 'True', 'debug': 'False', 'use_colors': 'True', 'warn_error': 'None', 'maximum_seed_size_mib': '1', 'log_path': 'logs', 'empty': 'None', 'target_path': 'None'}
+[0m22:36:24.553873 [debug] [MainThread]: Starter project path: /Users/maryam/Documents/Recommender service Project/venv/lib/python3.12/site-packages/dbt/include/starter_project
+[0m22:36:24.565660 [info ] [MainThread]: Setting up your profile.
+[0m22:41:40.776295 [info ] [MainThread]: Profile mini_data_platform written to /Users/maryam/.dbt/profiles.yml using target's profile_template.yml and your supplied values.
+[0m22:41:40.789279 [info ] [MainThread]: Running dbt debug to validate the project...
+[0m22:41:40.791361 [info ] [MainThread]: dbt version: 1.12.4
+[0m22:41:40.791696 [info ] [MainThread]: python version: 3.12.2
+[0m22:41:40.791987 [info ] [MainThread]: python path: /Users/maryam/Documents/Recommender service Project/venv/bin/python3.12
+[0m22:41:40.792482 [info ] [MainThread]: os info: macOS-26.6.2-arm64-arm-64bit
+[0m22:41:40.847100 [info ] [MainThread]: Using profiles dir at /Users/maryam/.dbt
+[0m22:41:40.847520 [info ] [MainThread]: Using profiles.yml file at /Users/maryam/.dbt/profiles.yml
+[0m22:41:40.847733 [info ] [MainThread]: Using dbt_project.yml file at /Users/maryam/Documents/Recommender service Project/mini_data_platform/dbt_project.yml
+[0m22:41:40.847895 [info ] [MainThread]: adapter type: bigquery
+[0m22:41:40.848042 [info ] [MainThread]: adapter version: 1.12.0
+[0m22:41:40.897091 [info ] [MainThread]: Configuration:
+[0m22:41:40.897367 [info ] [MainThread]:   profiles.yml file [[32mOK found and valid[0m]
+[0m22:41:40.897534 [info ] [MainThread]:   dbt_project.yml file [[32mOK found and valid[0m]
+[0m22:41:40.897683 [info ] [MainThread]: Required dependencies:
+[0m22:41:40.897885 [debug] [MainThread]: Executing "git --help"
+[0m22:41:40.931375 [debug] [MainThread]: STDOUT: "b"usage: git [-v | --version] [-h | --help] [-C <path>] [-c <name>=<value>]\n           [--exec-path[=<path>]] [--html-path] [--man-path] [--info-path]\n           [-p | --paginate | -P | --no-pager] [--no-replace-objects] [--no-lazy-fetch]\n           [--no-optional-locks] [--no-advice] [--bare] [--git-dir=<path>]\n           [--work-tree=<path>] [--namespace=<name>] [--config-env=<name>=<envvar>]\n           <command> [<args>]\n\nThese are common Git commands used in various situations:\n\nstart a working area (see also: git help tutorial)\n   clone      Clone a repository into a new directory\n   init       Create an empty Git repository or reinitialize an existing one\n\nwork on the current change (see also: git help everyday)\n   add        Add file contents to the index\n   mv         Move or rename a file, a directory, or a symlink\n   restore    Restore working tree files\n   rm         Remove files from the working tree and from the index\n\nexamine the history and state (see also: git help revisions)\n   bisect     Use binary search to find the commit that introduced a bug\n   diff       Show changes between commits, commit and working tree, etc\n   grep       Print lines matching a pattern\n   log        Show commit logs\n   show       Show various types of objects\n   status     Show the working tree status\n\ngrow, mark and tweak your common history\n   backfill   Download missing objects in a partial clone\n   branch     List, create, or delete branches\n   commit     Record changes to the repository\n   merge      Join two or more development histories together\n   rebase     Reapply commits on top of another base tip\n   reset      Reset current HEAD to the specified state\n   switch     Switch branches\n   tag        Create, list, delete or verify a tag object signed with GPG\n\ncollaborate (see also: git help workflows)\n   fetch      Download objects and refs from another repository\n   pull       Fetch from and integrate with another repository or a local branch\n   push       Update remote refs along with associated objects\n\n'git help -a' and 'git help -g' list available subcommands and some\nconcept guides. See 'git help <command>' or 'git help <concept>'\nto read about a specific subcommand or concept.\nSee 'git help git' for an overview of the system.\n""
+[0m22:41:40.932181 [debug] [MainThread]: STDERR: "b''"
+[0m22:41:40.932467 [info ] [MainThread]:  - git [[32mOK found[0m]
+
+[0m22:41:40.932686 [info ] [MainThread]: Connection:
+[0m22:41:40.932911 [info ] [MainThread]:   method: oauth
+[0m22:41:40.933060 [info ] [MainThread]:   database: mini-data-platform-507211
+[0m22:41:40.933203 [info ] [MainThread]:   execution_project: mini-data-platform-507211
+[0m22:41:40.933336 [info ] [MainThread]:   schema: mini_data_platform
+[0m22:41:40.933464 [info ] [MainThread]:   location: EU
+[0m22:41:40.933591 [info ] [MainThread]:   priority: interactive
+[0m22:41:40.933718 [info ] [MainThread]:   maximum_bytes_billed: None
+[0m22:41:40.933844 [info ] [MainThread]:   reservation: None
+[0m22:41:40.933970 [info ] [MainThread]:   impersonate_service_account: None
+[0m22:41:40.934092 [info ] [MainThread]:   job_retry_deadline_seconds: None
+[0m22:41:40.934214 [info ] [MainThread]:   job_retries: 1
+[0m22:41:40.934337 [info ] [MainThread]:   job_creation_timeout_seconds: None
+[0m22:41:40.934459 [info ] [MainThread]:   job_execution_timeout_seconds: 300
+[0m22:41:40.934583 [info ] [MainThread]:   job_link_info_level_log: False
+[0m22:41:40.934706 [info ] [MainThread]:   timeout_seconds: 300
+[0m22:41:40.934828 [info ] [MainThread]:   client_id: None
+[0m22:41:40.934950 [info ] [MainThread]:   token_uri: None
+[0m22:41:40.935072 [info ] [MainThread]:   compute_region: None
+[0m22:41:40.935191 [info ] [MainThread]:   dataproc_cluster_name: None
+[0m22:41:40.935310 [info ] [MainThread]:   gcs_bucket: None
+[0m22:41:40.935428 [info ] [MainThread]:   dataproc_batch: None
+[0m22:41:40.935831 [info ] [MainThread]: Registered adapter: bigquery=1.12.0
+[0m22:41:41.047655 [debug] [MainThread]: Acquiring new bigquery connection 'debug'
+[0m22:41:41.048126 [debug] [MainThread]: On debug: select 1 as id
+[0m22:41:41.048470 [debug] [MainThread]: Opening a new connection, currently in state init
+[0m22:41:44.306192 [debug] [MainThread]: BigQuery adapter: https://console.cloud.google.com/bigquery?project=mini-data-platform-507211&j=bq:EU:f356e294-88d5-4132-8145-e8b0ec5181dc&page=queryresults
+[0m22:41:44.512383 [debug] [MainThread]: SQL status: OK in 0.205 seconds
+[0m22:41:44.824336 [info ] [MainThread]:   Connection test: [[32mOK connection ok[0m]
+
+[0m22:41:44.824894 [info ] [MainThread]: [32mAll checks passed![0m
+[0m22:41:44.825385 [info ] [MainThread]: Your new dbt project "mini_data_platform" was created!
+Initialized new project in /Users/maryam/Documents/Recommender service Project/mini_data_platform/mini_data_platform
+
+For more information on how to configure the profiles.yml file,
+please consult the dbt documentation here:
+
+  https://docs.getdbt.com/docs/configure-your-profile
+
+One more thing:
+
+Need help? Don't hesitate to reach out to us via GitHub issues or on Slack:
+
+  https://community.getdbt.com/
+
+Happy modeling!
+
+[0m22:41:44.830827 [debug] [MainThread]: Resource report: {"command_name": "init", "command_success": true, "command_wall_clock_time": 330.8617, "process_in_blocks": "0", "process_kernel_time": 0.402284, "process_mem_max_rss": "213319680", "process_out_blocks": "0", "process_user_time": 1.334263}
+[0m22:41:44.831497 [debug] [MainThread]: Command `dbt init` succeeded at 22:41:44.831358 after 330.86 seconds
+[0m22:41:44.831855 [debug] [MainThread]: Connection 'debug' was properly closed.
+[0m22:41:44.832226 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'end', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x1184aee70>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x10ced6cf0>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x11c0b4dd0>]}
+[0m22:41:44.832646 [debug] [MainThread]: Flushing usage events
+[0m22:41:45.305313 [debug] [MainThread]: An error was encountered while trying to flush usage events
