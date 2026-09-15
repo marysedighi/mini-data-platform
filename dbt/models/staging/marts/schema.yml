@@ -1,0 +1,23 @@
+version: 2
+
+models:
+  - name: revenue_per_category
+    columns:
+      - name: category
+        data_tests:
+          - not_null
+          - unique
+
+  - name: top_products
+    columns:
+      - name: product_id
+        data_tests:
+          - not_null
+          - unique
+
+  - name: top_users
+    columns:
+      - name: user_id
+        data_tests:
+          - not_null
+          - unique

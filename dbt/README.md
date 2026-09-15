@@ -1,15 +1,89 @@
-Welcome to your new dbt project!
+# dbt - Mini Data Platform
 
-### Using the starter project
+This dbt project transforms raw data in BigQuery into clean staging models and analytics-ready mart models.
 
-Try running the following commands:
-- dbt run
-- dbt test
+## Data flow
 
+BigQuery raw tables
+↓
+dbt staging models
+↓
+dbt tests
+↓
+analytics mart models
 
-### Resources:
-- Learn more about dbt [in the docs](https://docs.getdbt.com/docs/introduction)
-- Check out [Discourse](https://discourse.getdbt.com/) for commonly asked questions and answers
-- Join the [chat](https://community.getdbt.com/) on Slack for live discussions and support
-- Find [dbt events](https://events.getdbt.com) near you
-- Check out [the blog](https://blog.getdbt.com/) for the latest news on dbt's development and best practices
+## Sources
+
+The dbt project uses these BigQuery source tables:
+
+- `products`
+- `users`
+- `orders`
+
+## Staging models
+
+The staging layer provides cleaned, reusable views:
+
+- `stg_products`
+- `stg_users`
+- `stg_orders`
+
+These models are built from the BigQuery source tables.
+
+## Mart models
+
+The mart layer contains business-focused analytical views:
+
+- `revenue_per_category`
+- `top_products`
+- `top_users`
+
+## Testing
+
+dbt tests are used to validate data quality, including:
+
+- `not_null`
+- `unique`
+- `relationships`
+
+Run:
+
+```bash
+dbt test
+```
+
+## Useful commands
+
+Check the dbt configuration and BigQuery connection:
+
+```bash
+dbt debug
+```
+Build all dbt models:
+
+```bash
+dbt run
+```
+Build and test together:
+
+```bash
+dbt build
+```
+## BigQuery configuration
+
+This project uses BigQuery as the analytics warehouse.
+
+The local connection configuration is stored in:
+
+```bash
+~/.dbt/profiles.yml
+```
+
+## Model materialization
+
+Models are currently materialized as BigQuery views.
+
+```bash
++materialized: view
+```
+This means BigQuery stores the SQL definition of each model rather than physically storing a separate copy of the result data.
