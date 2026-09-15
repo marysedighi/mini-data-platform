@@ -365,10 +365,10 @@ Current:
 - Google BigQuery client
 - Pytest
 - GitHub Actions
+- dbt analytics engineering
 
 Planned or future enhancements:
 
-- dbt analytics engineering
 - Kafka streaming
 - Spark batch and streaming jobs
 - Apache Beam / Google Dataflow

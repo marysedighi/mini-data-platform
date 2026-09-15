@@ -1,6 +1,5 @@
 pytest
 requests
-pyspark
 fastapi
 uvicorn
 redis

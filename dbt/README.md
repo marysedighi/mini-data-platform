@@ -4,13 +4,7 @@ This dbt project transforms raw data in BigQuery into clean staging models and a
 
 ## Data flow
 
-BigQuery raw tables
-↓
-dbt staging models
-↓
-dbt tests
-↓
-analytics mart models
+BigQuery raw tables -> dbt staging models -> dbt tests -> analytics mart models
 
 ## Sources
 
