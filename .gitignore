@@ -1,8 +1,8 @@
 venv/
+logs/
 __pycache__/
 *.pyc
 src/__pycache__/
 tests/__pycache__/
 practice/
 .DS_Store
-logs/
