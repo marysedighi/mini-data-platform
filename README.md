@@ -203,9 +203,7 @@ REDIS_HOST=redis
 REDIS_PORT=6379
 ```
 
-### <img src="https://airflow.apache.org/docs/apache-airflow/stable/_images/pin_large.png" width="22" /> Apache Airflow
-
-Airflow orchestration is implemented in:
+### Airflow orchestration is implemented in:
 
 ```text
 airflow/dags/etl_pipeline_dag.py
@@ -311,12 +309,6 @@ python3 -m venv venv
 source venv/bin/activate
 ```
 
-For fish shell:
-
-```fish
-source venv/bin/activate.fish
-```
-
 Install dependencies:
 
 ```bash
@@ -379,12 +371,6 @@ Stop services:
 docker compose down
 ```
 
-Stop services and remove the Airflow metadata database volume:
-
-```bash
-docker compose down -v
-```
-
 ## BigQuery Workflow
 
 Authenticate with Google Cloud before running BigQuery scripts:
@@ -421,9 +407,8 @@ The dbt project expects a `mini_data_platform` profile configured for BigQuery.
 
 Current:
 
-- Python 3.12
+- Python
 - FastAPI
-- Uvicorn
 - SQLite
 - Redis
 - Apache Airflow
@@ -433,33 +418,17 @@ Current:
 - Google BigQuery client
 - dbt BigQuery
 - Pytest
-- GitHub Actions
+- GitHub Actions CI
 
 ## 🗺️ Roadmap
 
 Planned next steps:
 
-- ⬜ Spark / PySpark
-- ⬜ Data quality + unit/integration tests
-- ⬜ Terraform
-- ⬜ GitHub Actions CD
-  - test -> build -> infrastructure -> deploy
-- ⬜ Databricks
-- ⬜ Final documentation / architecture
-
-Planned delivery flow:
-
-```text
-PySpark
-  ↓
-Data quality + unit/integration tests
-  ↓
-Terraform
-  ↓
-GitHub Actions CD
-  ↓
-Final documentation / architecture
-```
+- Spark / PySpark
+- Data quality + unit/integration tests
+- Terraform
+- GitHub Actions CD
+- Final documentation / architecture
 
 ## 🎓 Learning Focus
 
@@ -482,7 +451,5 @@ This project is designed to practice:
 - Spark / PySpark
 - Unit testing with Pytest
 - Integration testing
-- CI with GitHub Actions
-- CD with GitHub Actions
+- CI/CD with GitHub Actions
 - Terraform infrastructure as code
-- Databricks
