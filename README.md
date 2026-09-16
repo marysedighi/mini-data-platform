@@ -1,10 +1,10 @@
 # 🏗️ Mini Data Platform
 
-A hands-on data engineering project that ingests product, user, and order data, cleans and validates it, stores it in SQLite, exposes analytics through a FastAPI service, caches selected API responses in Redis, and orchestrates the ETL flow with Apache Airflow.
+A hands-on data engineering project that ingests product, user, and order data, cleans and validates it, stores it in SQLite, loads curated data into BigQuery, transforms warehouse tables with dbt, exposes analytics through a FastAPI service, caches selected API responses in Redis, and orchestrates the ETL flow with Apache Airflow.
 
 The project is also set up for containerized local development with Docker Compose and CI validation with GitHub Actions.
 
-## Architecture
+## 🧭 Architecture
 
 ```text
 Fake Store API / local JSON fallback
@@ -15,21 +15,25 @@ Python ETL pipelines
         v
 Cleaned JSON files in data/
         |
-        v
-SQLite database
+        +--> SQLite database
+        |       |
+        |       +--> SQL analytics queries
+        |       |
+        |       +--> FastAPI REST API
+        |               |
+        |               v
+        |             Redis cache
         |
-        +--> SQL analytics queries
-        |
-        +--> FastAPI REST API
+        +--> BigQuery raw tables
                 |
                 v
-              Redis cache
-
-Optional cloud path:
-Cleaned JSON files -> BigQuery schema setup -> BigQuery table loads
+            dbt staging models
+                |
+                v
+              dbt marts
 
 Orchestration:
-Apache Airflow DAG -> ETL pipelines -> data quality checks
+Apache Airflow DAG -> ETL pipelines -> data quality checks -> BigQuery load
 ```
 
 ## ⚙️ Infrastructure
@@ -42,7 +46,7 @@ The local infrastructure is defined in `compose.yaml`.
 | `redis` | Cache for API analytics responses | internal `6379` |
 | `airflow-db` | PostgreSQL metadata database for Airflow | internal |
 | `airflow-init` | Runs Airflow database migrations | none |
-| `airflow` | Airflow standalone webserver/scheduler | `8080` |
+| `airflow` | Custom Airflow image with BigQuery support | `8080` |
 
 The API container mounts:
 
@@ -54,6 +58,7 @@ The Airflow container mounts:
 - `./airflow/dags:/opt/airflow/dags`
 - `./src:/opt/airflow/src`
 - `./data:/opt/airflow/data`
+- `${HOME}/.config/gcloud:/home/airflow/.config/gcloud:ro`
 
 ## 📁 Project Structure
 
@@ -75,6 +80,18 @@ mini-data-platform/
 │   ├── mini_data_platform.db
 │   ├── products.json
 │   └── users.json
+├── dbt/
+│   ├── dbt_project.yml
+│   └── models/
+│       ├── staging/
+│       │   ├── sources.yml
+│       │   ├── stg_orders.sql
+│       │   ├── stg_products.sql
+│       │   └── stg_users.sql
+│       └── marts/
+│           ├── revenue_per_category.sql
+│           ├── top_products.sql
+│           └── top_users.sql
 ├── src/
 │   ├── analytics.py
 │   ├── api.py
@@ -94,6 +111,7 @@ mini-data-platform/
 │   └── test_etl.py
 ├── .github/workflows/python-ci.yml
 ├── Dockerfile
+├── airflow/Dockerfile
 ├── compose.yaml
 ├── requirements.txt
 └── README.md
@@ -185,7 +203,7 @@ REDIS_HOST=redis
 REDIS_PORT=6379
 ```
 
-### Apache Airflow
+### <img src="https://airflow.apache.org/docs/apache-airflow/stable/_images/pin_large.png" width="22" /> Apache Airflow
 
 Airflow orchestration is implemented in:
 
@@ -199,6 +217,7 @@ The `etl_pipeline` DAG runs:
 2. Users pipeline
 3. Orders pipeline
 4. Data quality checks
+5. BigQuery load
 
 There is also a small test DAG at:
 
@@ -211,6 +230,8 @@ Airflow UI:
 ```text
 http://localhost:8080
 ```
+
+The Airflow service uses `airflow/Dockerfile`, which installs `google-cloud-bigquery` so the DAG can load cleaned data into BigQuery.
 
 ### ☁️ BigQuery
 
@@ -231,7 +252,41 @@ LOCATION=europe-west4
 
 The setup script runs the SQL schema files. The loader script loads cleaned JSON data into the existing BigQuery tables with `WRITE_TRUNCATE`.
 
-### CI
+### 🔨 dbt
+
+The dbt project is stored in:
+
+```text
+dbt/
+```
+
+The warehouse transformation flow is:
+
+```text
+BigQuery raw tables -> dbt staging models -> dbt marts
+```
+
+Current source tables:
+
+- `products`
+- `users`
+- `orders`
+
+Current staging models:
+
+- `stg_products`
+- `stg_users`
+- `stg_orders`
+
+Current marts:
+
+- `revenue_per_category`
+- `top_products`
+- `top_users`
+
+dbt schema tests are defined for key IDs, required fields, uniqueness, and relationships between orders, users, and products.
+
+### 🧪 CI
 
 GitHub Actions is configured in:
 
@@ -350,7 +405,19 @@ Load cleaned JSON data into BigQuery:
 python -m src.bigquery_loader
 ```
 
-## Tech Stack
+## 🔨 dbt Workflow
+
+From the dbt project directory:
+
+```bash
+cd dbt
+dbt run
+dbt test
+```
+
+The dbt project expects a `mini_data_platform` profile configured for BigQuery.
+
+## 🛠️ Tech Stack
 
 Current:
 
@@ -360,12 +427,13 @@ Current:
 - SQLite
 - Redis
 - Apache Airflow
+- PostgreSQL for Airflow metadata
 - Docker
 - Docker Compose
 - Google BigQuery client
+- dbt BigQuery
 - Pytest
 - GitHub Actions
-- dbt analytics engineering
 
 Planned or future enhancements:
 
@@ -392,5 +460,6 @@ This project is designed to practice:
 - Dockerized development
 - Airflow orchestration
 - BigQuery table setup and loading
+- dbt staging and marts
 - Unit testing with Pytest
 - CI with GitHub Actions
