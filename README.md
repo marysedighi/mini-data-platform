@@ -435,13 +435,31 @@ Current:
 - Pytest
 - GitHub Actions
 
-Planned or future enhancements:
+## 🗺️ Roadmap
 
-- Kafka streaming
-- Spark batch and streaming jobs
-- Apache Beam / Google Dataflow
-- Terraform infrastructure as code
-- Databricks
+Planned next steps:
+
+- ⬜ Spark / PySpark
+- ⬜ Data quality + unit/integration tests
+- ⬜ Terraform
+- ⬜ GitHub Actions CD
+  - test -> build -> infrastructure -> deploy
+- ⬜ Databricks
+- ⬜ Final documentation / architecture
+
+Planned delivery flow:
+
+```text
+PySpark
+  ↓
+Data quality + unit/integration tests
+  ↓
+Terraform
+  ↓
+GitHub Actions CD
+  ↓
+Final documentation / architecture
+```
 
 ## 🎓 Learning Focus
 
@@ -461,5 +479,10 @@ This project is designed to practice:
 - Airflow orchestration
 - BigQuery table setup and loading
 - dbt staging and marts
+- Spark / PySpark
 - Unit testing with Pytest
+- Integration testing
 - CI with GitHub Actions
+- CD with GitHub Actions
+- Terraform infrastructure as code
+- Databricks
