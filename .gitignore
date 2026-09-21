@@ -6,3 +6,4 @@ src/__pycache__/
 tests/__pycache__/
 practice/
 .DS_Store
+data/spark/
