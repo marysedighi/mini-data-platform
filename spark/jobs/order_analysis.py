@@ -75,7 +75,7 @@ missing_products = (
 if missing_products.take(1):
     raise ValueError("Orders with missing product_id found")
 
-# check ordrers referencing unknown users
+# check orders referencing unknown users
 missing_users = (
     orders.join(users, on="user_id", how="left_anti")
 )
