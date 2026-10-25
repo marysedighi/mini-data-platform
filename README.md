@@ -390,6 +390,9 @@ Load cleaned JSON data into BigQuery:
 ```bash
 python -m src.bigquery_loader
 ```
+**The pipeline includes incremental loading with a staging table and BigQuery MERGE to support idempotent reruns and avoid duplicate records.
+
+BigQuery DML operations such as MERGE require billing to be enabled on the GCP project. The implementation is included in this project, but execution is currently skipped because the project uses the free tier without billing enabled.
 
 ## 🔨 dbt Workflow
 

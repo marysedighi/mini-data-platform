@@ -41,11 +41,13 @@ models:
       - name: user_id
         data_tests:
           - relationships:
-              to: ref('dim_users')
-              field: user_id
+              arguments:
+                to: ref('dim_users')
+                field: user_id
 
       - name: product_id
         data_tests:
           - relationships:
-              to: ref('dim_products')
-              field: product_id
+              arguments:
+                to: ref('dim_products')
+                field: product_id
