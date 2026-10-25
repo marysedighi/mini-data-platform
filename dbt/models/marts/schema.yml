@@ -21,3 +21,31 @@ models:
         data_tests:
           - not_null
           - unique
+
+  - name: dim_users
+    columns:
+      - name: user_id
+        data_tests:
+          - not_null
+          - unique
+
+  - name: dim_products
+    columns:
+      - name: product_id
+        data_tests:
+          - not_null
+          - unique
+
+  - name: fact_orders
+    columns:
+      - name: user_id
+        data_tests:
+          - relationships:
+              to: ref('dim_users')
+              field: user_id
+
+      - name: product_id
+        data_tests:
+          - relationships:
+              to: ref('dim_products')
+              field: product_id
